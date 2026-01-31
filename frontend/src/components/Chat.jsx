@@ -68,15 +68,6 @@ function Chat({ user }) {
       {/* Left Drawer */}
       <div className={`drawer ${drawerOpen ? 'open' : ''}`}>
         <div className="drawer-content">
-          <section className="drawer-hero">
-            <h2>Welcome to Economic Survey Analysis</h2>
-            <p>Evidence-grounded chat powered by the latest Economic Survey with comprehensive datasets, supplements, and advanced analytics.</p>
-            <div className="drawer-hero-actions">
-              <button className="drawer-hero-btn secondary">Read Summary</button>
-              <button className="drawer-hero-btn primary" onClick={() => setDrawerOpen(false)}>Start Chat</button>
-            </div>
-          </section>
-
           <section className="drawer-section">
             <h4>Features</h4>
             <ul className="drawer-list">
@@ -111,10 +102,6 @@ function Chat({ user }) {
               <li>Government Publications</li>
             </ul>
           </section>
-
-          <footer className="drawer-footer">
-            © 2026 Economic Survey Practitioner Chat v1.2
-          </footer>
         </div>
       </div>
 

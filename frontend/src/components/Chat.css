@@ -18,10 +18,12 @@
   z-index: 1000;
   overflow-y: auto;
   border-right: 1px solid #e5e7eb;
+  visibility: hidden;
 }
 
 .drawer.open {
   left: 0;
+  visibility: visible;
 }
 
 .drawer-overlay {
@@ -41,75 +43,7 @@
 }
 
 .drawer-content {
-  padding: 0;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-}
-
-.drawer-hero {
-  background: linear-gradient(135deg, #f0f9ff 0%, #f5f3ff 100%);
-  padding: 2rem 1.5rem;
-  border-bottom: 1px solid #e5e7eb;
-  flex-shrink: 0;
-}
-
-.drawer-hero h2 {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #1f2937;
-  margin: 0 0 0.75rem 0;
-  line-height: 1.3;
-}
-
-.drawer-hero p {
-  font-size: 0.875rem;
-  color: #6b7280;
-  margin: 0 0 1.25rem 0;
-  line-height: 1.6;
-}
-
-.drawer-hero-actions {
-  display: flex;
-  gap: 0.75rem;
-}
-
-.drawer-hero-btn {
-  flex: 1;
-  padding: 0.625rem 1rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.875rem;
-  font-weight: 500;
-  transition: all 0.2s;
-}
-
-.drawer-hero-btn.primary {
-  background: #10a37f;
-  color: white;
-}
-
-.drawer-hero-btn.primary:hover {
-  background: #0e9070;
-}
-
-.drawer-hero-btn.secondary {
-  background: white;
-  color: #1f2937;
-  border: 1px solid #d1d5db;
-}
-
-.drawer-hero-btn.secondary:hover {
-  background: #f9fafb;
-  border-color: #9ca3af;
-}
-
-.drawer-sections-container {
-  padding: 1.5rem 1.5rem;
-  flex: 1;
-  overflow-y: auto;
+  padding: 1.5rem;
 }
 
 .drawer-section {
@@ -172,16 +106,6 @@
   border-color: #d1d5db;
 }
 
-.drawer-footer {
-  padding: 1.5rem;
-  border-top: 1px solid #e5e7eb;
-  text-align: center;
-  color: #9ca3af;
-  font-size: 0.75rem;
-  background: #f9fafb;
-  margin-top: auto;
-}
-
 .drawer-toggle {
   position: fixed;
   top: 4.5rem;
@@ -215,6 +139,8 @@
   display: flex;
   flex-direction: column;
   background: white;
+  position: relative;
+  z-index: 10;
 }
 
 .messages {
