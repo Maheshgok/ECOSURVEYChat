@@ -68,11 +68,27 @@ function Chat({ user }) {
       {/* Left Drawer */}
       <div className={`drawer ${drawerOpen ? 'open' : ''}`}>
         <div className="drawer-content">
-          <section className="drawer-section">
-            <h4>Getting Started</h4>
+          <section className="drawer-section drawer-hero">
+            <h3>Welcome to Economic Survey Analysis</h3>
             <p className="drawer-text">
-              Ask questions about economic survey data and get AI-powered insights backed by official government publications.
+              Evidence-grounded chat powered by the latest Economic Survey with comprehensive datasets, supplements, and advanced analytics.
             </p>
+            <div className="drawer-actions">
+              <button className="drawer-action-btn" onClick={() => setDrawerOpen(false)}>
+                Start Chat
+              </button>
+            </div>
+          </section>
+
+          <section className="drawer-section">
+            <h4>Features</h4>
+            <ul className="drawer-list">
+              <li>📊 Evidence-grounded answers with citations</li>
+              <li>📈 Real-time data from Economic Survey XLSX</li>
+              <li>🔗 Cross-linked documents and datasets</li>
+              <li>🎯 Practitioner-grade insights</li>
+              <li>📱 Real-time streaming responses</li>
+            </ul>
           </section>
 
           <section className="drawer-section">
@@ -99,16 +115,9 @@ function Chat({ user }) {
             </ul>
           </section>
 
-          <section className="drawer-section">
-            <h4>Features</h4>
-            <ul className="drawer-list">
-              <li>AI-Powered Analysis</li>
-              <li>Evidence-Based Answers</li>
-              <li>Multi-Source Retrieval</li>
-              <li>Contextual Insights</li>
-              <li>Real-time Processing</li>
-            </ul>
-          </section>
+          <footer className="drawer-footer">
+            © 2026 Economic Survey Practitioner Chat v1.2
+          </footer>
         </div>
       </div>
 

@@ -48,6 +48,42 @@
   margin-bottom: 2rem;
 }
 
+.drawer-hero {
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 1.5rem;
+}
+
+.drawer-hero h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 0.75rem 0;
+  line-height: 1.4;
+}
+
+.drawer-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.drawer-action-btn {
+  flex: 1;
+  padding: 0.625rem 1rem;
+  background: #10a37f;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.drawer-action-btn:hover {
+  background: #0e9070;
+}
+
 .drawer-section h4 {
   font-size: 0.75rem;
   font-weight: 600;
@@ -72,12 +108,17 @@
 }
 
 .drawer-list li:before {
-  content: '•';
+  content: '';
+  display: none;
+}
+
+.drawer-footer {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+  text-align: center;
   color: #9ca3af;
-  font-weight: bold;
-  display: inline-block;
-  width: 1em;
-  margin-right: 0.5rem;
+  font-size: 0.75rem;
 }
 
 .drawer-text {
