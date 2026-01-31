@@ -67,14 +67,29 @@ function Chat({ user }) {
     <div className="chat-wrapper">
       {/* Left Drawer */}
       <div className={`drawer ${drawerOpen ? 'open' : ''}`}>
-        <div className="drawer-header">
-          <h3>ECO Survey</h3>
-          <button className="drawer-close" onClick={() => setDrawerOpen(false)}>✕</button>
-        </div>
-        
         <div className="drawer-content">
           <section className="drawer-section">
-            <h4>📊 Data Sources</h4>
+            <h4>Getting Started</h4>
+            <p className="drawer-text">
+              Ask questions about economic survey data and get AI-powered insights backed by official government publications.
+            </p>
+          </section>
+
+          <section className="drawer-section">
+            <h4>Sample Questions</h4>
+            <button className="sample-question" onClick={() => { setInput("What are the key economic indicators?"); setDrawerOpen(false); }}>
+              What are the key economic indicators?
+            </button>
+            <button className="sample-question" onClick={() => { setInput("Show me GDP growth trends"); setDrawerOpen(false); }}>
+              Show me GDP growth trends
+            </button>
+            <button className="sample-question" onClick={() => { setInput("Summarize employment data"); setDrawerOpen(false); }}>
+              Summarize employment data
+            </button>
+          </section>
+
+          <section className="drawer-section">
+            <h4>Data Sources</h4>
             <ul className="drawer-list">
               <li>Economic Survey PDFs</li>
               <li>Statistical Tables</li>
@@ -85,24 +100,14 @@ function Chat({ user }) {
           </section>
 
           <section className="drawer-section">
-            <h4>✨ Features</h4>
+            <h4>Features</h4>
             <ul className="drawer-list">
               <li>AI-Powered Analysis</li>
               <li>Evidence-Based Answers</li>
               <li>Multi-Source Retrieval</li>
               <li>Contextual Insights</li>
               <li>Real-time Processing</li>
-              <li>Conversation History</li>
             </ul>
-          </section>
-
-          <section className="drawer-section">
-            <h4>ℹ️ About</h4>
-            <p className="drawer-text">
-              ECO Survey Chat uses advanced AI to analyze economic survey data 
-              and provide evidence-based insights. All responses are backed by 
-              official government publications and statistical reports.
-            </p>
           </section>
         </div>
       </div>
@@ -112,33 +117,11 @@ function Chat({ user }) {
 
       {/* Main Chat Area */}
       <div className="chat-container">
-        <div className="chat-header">
-          <button className="drawer-toggle" onClick={() => setDrawerOpen(!drawerOpen)}>
-            ☰
-          </button>
-          <h2>ECO Survey Chat</h2>
-        </div>
+        <button className="drawer-toggle" onClick={() => setDrawerOpen(!drawerOpen)}>
+          {drawerOpen ? '→' : '←'}
+        </button>
 
         <div className="messages">
-        {messages.length === 0 && (
-          <div className="welcome-message">
-            <h2>👋 Welcome to ECO Survey Chat!</h2>
-            <p>Ask questions about the survey data and get AI-powered insights.</p>
-            <div className="sample-questions">
-              <h3>Try asking:</h3>
-              <button onClick={() => setInput("What are the key economic indicators?")}>
-                What are the key economic indicators?
-              </button>
-              <button onClick={() => setInput("Show me GDP growth trends")}>
-                Show me GDP growth trends
-              </button>
-              <button onClick={() => setInput("Summarize employment data")}>
-                Summarize employment data
-              </button>
-            </div>
-          </div>
-        )}
-        
         {messages.map((msg, idx) => (
           <div key={idx} className={`message ${msg.role}`}>
             <div className="message-avatar">
