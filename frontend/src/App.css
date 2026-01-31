@@ -84,22 +84,41 @@
   background: white;
   padding: 1rem 1.5rem;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   border-bottom: 1px solid #e5e7eb;
+  position: relative;
 }
 
 .app-header h1 {
   color: #1f2937;
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   font-weight: 600;
   margin: 0;
+  text-align: center;
+  flex: 1;
 }
 
 .user-info {
   display: flex;
   align-items: center;
   gap: 1rem;
+  position: absolute;
+  right: 1.5rem;
+}
+
+.linkedin-link {
+  color: #0a66c2;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.linkedin-link:hover {
+  background: #f3f4f6;
 }
 
 .user-info span {

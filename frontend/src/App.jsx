@@ -42,8 +42,11 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1>ECO Survey Chat</h1>
+        <h1>Chat with the Economic Survey of India</h1>
         <div className="user-info">
+          <a href="https://www.linkedin.com/in/mahesh-gokhale-64b11512/" target="_blank" rel="noopener noreferrer" className="linkedin-link">
+            LinkedIn
+          </a>
           <img src={user.photoURL} alt={user.displayName} className="user-avatar" />
           <span>{user.displayName}</span>
           <button onClick={signOutUser} className="btn-logout">Sign Out</button>
