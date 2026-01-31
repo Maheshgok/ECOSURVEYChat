@@ -137,20 +137,22 @@
 }
 
 .btn-logout {
-  padding: 0.5rem 1rem;
-  background: white;
-  color: #374151;
-  border: 1px solid #d1d5db;
+  padding: 0.625rem 1.25rem;
+  background: linear-gradient(135deg, #10a37f 0%, #0d8b6e 100%);
+  color: white;
+  border: none;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 500;
   font-size: 0.875rem;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(16, 163, 127, 0.2);
 }
 
 .btn-logout:hover {
-  border-color: #9ca3af;
-  background: #f9fafb;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 163, 127, 0.3);
+  background: linear-gradient(135deg, #0d8b6e 0%, #09725a 100%);
 }
 
 .app-main {
