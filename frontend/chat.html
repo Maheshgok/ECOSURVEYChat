@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Economic Survey Chat</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Economic Survey Chat</h1>
+            <nav>
+                <ul>
+                    <li><a href="/index.html">Home</a></li>
+                    <li><a href="/summary.html">Summary</a></li>
+                    <li><a href="/chat.html" class="active">Chat</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="main chat-page">
+            <section class="chat-container">
+                <div id="chat-transcript" class="transcript">
+                    <p class="system-message">Welcome to Economic Survey Chat. Ask questions about the survey, datasets, and economic indicators.</p>
+                </div>
+
+                <div class="input-area">
+                    <input 
+                        type="text" 
+                        id="message-input" 
+                        placeholder="Ask a question about the Economic Survey..."
+                        autocomplete="off"
+                    >
+                    <button id="send-btn" class="btn btn-primary">Send</button>
+                </div>
+
+                <div class="options">
+                    <label>
+                        <input type="checkbox" id="show-intuition">
+                        Show economic intuition
+                    </label>
+                </div>
+            </section>
+
+            <aside class="evidence-panel">
+                <h3>Evidence Citations</h3>
+                <div id="evidence-container">
+                    <p>Evidence will appear here as the assistant responds</p>
+                </div>
+            </aside>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2026 Economic Survey Practitioner Chat v1.2 - Phase 1 Ready</p>
+        </footer>
+    </div>
+
+    <script src="js/chat.js"></script>
+</body>
+</html>
