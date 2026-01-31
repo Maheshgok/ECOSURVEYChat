@@ -7,6 +7,7 @@ function Chat({ user }) {
   const [messages, setMessages] = useState([])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
+  const [drawerOpen, setDrawerOpen] = useState(false)
   const messagesEndRef = useRef(null)
 
   const scrollToBottom = () => {
@@ -63,8 +64,62 @@ function Chat({ user }) {
   }
 
   return (
-    <div className="chat-container">
-      <div className="messages">
+    <div className="chat-wrapper">
+      {/* Left Drawer */}
+      <div className={`drawer ${drawerOpen ? 'open' : ''}`}>
+        <div className="drawer-header">
+          <h3>ECO Survey</h3>
+          <button className="drawer-close" onClick={() => setDrawerOpen(false)}>✕</button>
+        </div>
+        
+        <div className="drawer-content">
+          <section className="drawer-section">
+            <h4>📊 Data Sources</h4>
+            <ul className="drawer-list">
+              <li>Economic Survey PDFs</li>
+              <li>Statistical Tables</li>
+              <li>Charts & Visualizations</li>
+              <li>Index Reports</li>
+              <li>Government Publications</li>
+            </ul>
+          </section>
+
+          <section className="drawer-section">
+            <h4>✨ Features</h4>
+            <ul className="drawer-list">
+              <li>AI-Powered Analysis</li>
+              <li>Evidence-Based Answers</li>
+              <li>Multi-Source Retrieval</li>
+              <li>Contextual Insights</li>
+              <li>Real-time Processing</li>
+              <li>Conversation History</li>
+            </ul>
+          </section>
+
+          <section className="drawer-section">
+            <h4>ℹ️ About</h4>
+            <p className="drawer-text">
+              ECO Survey Chat uses advanced AI to analyze economic survey data 
+              and provide evidence-based insights. All responses are backed by 
+              official government publications and statistical reports.
+            </p>
+          </section>
+        </div>
+      </div>
+
+      {/* Drawer Overlay */}
+      {drawerOpen && <div className="drawer-overlay" onClick={() => setDrawerOpen(false)} />}
+
+      {/* Main Chat Area */}
+      <div className="chat-container">
+        <div className="chat-header">
+          <button className="drawer-toggle" onClick={() => setDrawerOpen(!drawerOpen)}>
+            ☰
+          </button>
+          <h2>ECO Survey Chat</h2>
+        </div>
+
+        <div className="messages">
         {messages.length === 0 && (
           <div className="welcome-message">
             <h2>👋 Welcome to ECO Survey Chat!</h2>
@@ -146,6 +201,7 @@ function Chat({ user }) {
           {loading ? '⏳' : '📤'}
         </button>
       </form>
+      </div>
     </div>
   )
 }
