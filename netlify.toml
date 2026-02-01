@@ -8,7 +8,7 @@
 
 [[redirects]]
   from = "/api/*"
-  to = "https://ecosurvey-backend-812016027146.asia-south1.run.app/api/:splat"
+  to = "https://ecosurvey-backend-bhcetby62q-el.a.run.app/api/:splat"
   status = 200
   force = true
 
