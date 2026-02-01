@@ -12,7 +12,7 @@ import traceback
 
 from app.core.settings import settings
 from app.core.database import init_db, SessionLocal
-from app.api import health, auth, briefing, chat, evidence, admin, insights, summaries  # ingestion temporarily disabled
+from app.api import health, auth, chat
 
 # Configure logging
 logging.basicConfig(level=settings.LOG_LEVEL)
@@ -26,12 +26,16 @@ async def lifespan(app: FastAPI):
     # Startup
     try:
         logger.info("Starting Economic Survey Practitioner Chat v1.2")
-        try:
-            init_db()
-            logger.info("Database initialized successfully")
-        except Exception as e:
-            logger.warning(f"Failed to initialize database: {e} (continuing without DB)")
-            traceback.print_exc(file=sys.stderr)
+        # Skip table creation in production (Supabase schema already exists)
+        if settings.ENVIRONMENT != "production":
+            try:
+                init_db()
+                logger.info("Database initialized successfully")
+            except Exception as e:
+                logger.warning(f"Failed to initialize database: {e} (continuing without DB)")
+                traceback.print_exc(file=sys.stderr)
+        else:
+            logger.info("Production mode: skipping auto-migration (using existing Supabase schema)")
         
         logger.info("App ready and running")
         yield
@@ -63,14 +67,8 @@ app.add_middleware(
 
 # Include routers
 app.include_router(health.router, prefix="/api", tags=["Health"])
-app.include_router(auth.router, prefix="/auth", tags=["Authentication"])
-app.include_router(briefing.router, prefix="/api", tags=["Briefing"])
+app.include_router(auth.router, prefix="/api", tags=["Authentication"])
 app.include_router(chat.router, prefix="/api", tags=["Chat"])
-app.include_router(evidence.router, prefix="/api", tags=["Evidence"])
-# app.include_router(ingestion.router, prefix="/api", tags=["Ingestion"])  # Temporarily disabled
-app.include_router(insights.router, prefix="/api", tags=["Insights"])
-app.include_router(summaries.router, tags=["Summaries"])  # Phase 6
-app.include_router(admin.router, prefix="/api/admin", tags=["Admin"])
 
 
 # Root endpoint

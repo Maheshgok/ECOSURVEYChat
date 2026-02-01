@@ -16,5 +16,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application
 COPY . .
 
+# Expose port (Cloud Run will set PORT env var)
+EXPOSE 8080
+
 # Run migrations and start app
-CMD ["sh", "-c", "python -c 'from app.core.database import migrate_db; migrate_db()' && uvicorn app.main:app --host 0.0.0.0 --port 8000"]
+# Note: migrate_db will be skipped - database already has tables from Supabase migration
+CMD uvicorn app.main:app --host 0.0.0.0 --port 8080

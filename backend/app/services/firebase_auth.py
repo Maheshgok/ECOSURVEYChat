@@ -1,64 +1,50 @@
 """
-Firebase Authentication Service
-Handles Firebase token verification and user management
+Firebase Authentication Service - NO SERVICE ACCOUNT NEEDED
+Verifies Firebase ID tokens using Google's public keys
 """
 
 from typing import Optional
-import firebase_admin
-from firebase_admin import credentials, auth as firebase_auth
-from firebase_admin.exceptions import FirebaseError
+import jwt
+import requests
+from datetime import datetime
 from app.core.settings import settings
-import json
-import os
 
 
 class FirebaseAuthService:
-    """Firebase authentication service"""
+    """Firebase authentication service using public key verification"""
     
-    _initialized = False
+    GOOGLE_CERTS_URL = "https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com"
+    _certs_cache = None
+    _certs_expiry = None
     
     @classmethod
-    def initialize(cls):
-        """Initialize Firebase Admin SDK"""
-        if cls._initialized:
-            return
+    def _get_public_keys(cls):
+        """Fetch Google's public keys for token verification"""
+        now = datetime.now()
         
-        try:
-            # Try to initialize from credentials path
-            if settings.FIREBASE_CREDENTIALS_PATH and os.path.exists(settings.FIREBASE_CREDENTIALS_PATH):
-                cred = credentials.Certificate(settings.FIREBASE_CREDENTIALS_PATH)
-                firebase_admin.initialize_app(cred)
-                cls._initialized = True
-                print("✓ Firebase initialized from credentials file")
-                return
-            
-            # Try to initialize from inline JSON
-            if settings.FIREBASE_CREDENTIALS_JSON:
-                cred_dict = json.loads(settings.FIREBASE_CREDENTIALS_JSON)
-                cred = credentials.Certificate(cred_dict)
-                firebase_admin.initialize_app(cred)
-                cls._initialized = True
-                print("✓ Firebase initialized from inline credentials")
-                return
-            
-            # Try to initialize with project ID only (for local emulator)
-            if settings.FIREBASE_PROJECT_ID:
-                firebase_admin.initialize_app(options={
-                    'projectId': settings.FIREBASE_PROJECT_ID
-                })
-                cls._initialized = True
-                print("✓ Firebase initialized with project ID (emulator mode)")
-                return
-                
-            print("⚠ Firebase not configured - auth will not work")
-            
-        except Exception as e:
-            print(f"⚠ Firebase initialization failed: {e}")
+        # Use cached certs if still valid
+        if cls._certs_cache and cls._certs_expiry and now < cls._certs_expiry:
+            return cls._certs_cache
+        
+        # Fetch new certs
+        response = requests.get(cls.GOOGLE_CERTS_URL)
+        response.raise_for_status()
+        
+        cls._certs_cache = response.json()
+        
+        # Cache for 1 hour (Google recommends checking cache-control header)
+        cache_control = response.headers.get('cache-control', '')
+        if 'max-age=' in cache_control:
+            max_age = int(cache_control.split('max-age=')[1].split(',')[0])
+            from datetime import timedelta
+            cls._certs_expiry = now + timedelta(seconds=max_age)
+        
+        return cls._certs_cache
     
     @classmethod
     async def verify_token(cls, token: str) -> Optional[dict]:
         """
-        Verify Firebase ID token
+        Verify Firebase ID token using Google's public keys
         
         Args:
             token: Firebase ID token from client
@@ -66,61 +52,45 @@ class FirebaseAuthService:
         Returns:
             Decoded token dict with user info, or None if invalid
         """
-        if not cls._initialized:
-            cls.initialize()
-        
-        if not cls._initialized:
-            return None
-        
         try:
-            # Verify the token
-            decoded_token = firebase_auth.verify_id_token(token)
+            # Get the public keys
+            certs = cls._get_public_keys()
             
+            # Decode header to get key ID
+            header = jwt.get_unverified_header(token)
+            kid = header.get('kid')
+            
+            if not kid or kid not in certs:
+                print("Invalid token: key ID not found")
+                return None
+            
+            # Verify the token
+            decoded = jwt.decode(
+                token,
+                certs[kid],
+                algorithms=['RS256'],
+                audience=settings.FIREBASE_PROJECT_ID,
+                issuer=f'https://securetoken.google.com/{settings.FIREBASE_PROJECT_ID}'
+            )
+            
+            # Extract user info
             return {
-                'uid': decoded_token.get('uid'),
-                'email': decoded_token.get('email'),
-                'email_verified': decoded_token.get('email_verified', False),
-                'name': decoded_token.get('name'),
-                'picture': decoded_token.get('picture'),
-                'firebase_user': decoded_token
+                'uid': decoded.get('sub'),  # 'sub' is the user ID
+                'email': decoded.get('email'),
+                'email_verified': decoded.get('email_verified', False),
+                'name': decoded.get('name'),
+                'picture': decoded.get('picture'),
+                'firebase_user': decoded
             }
             
-        except FirebaseError as e:
-            print(f"Firebase token verification failed: {e}")
+        except jwt.ExpiredSignatureError:
+            print("Token expired")
+            return None
+        except jwt.InvalidTokenError as e:
+            print(f"Invalid token: {e}")
             return None
         except Exception as e:
-            print(f"Unexpected error verifying token: {e}")
-            return None
-    
-    @classmethod
-    async def get_user_by_uid(cls, uid: str) -> Optional[dict]:
-        """
-        Get user info from Firebase by UID
-        
-        Args:
-            uid: Firebase user ID
-            
-        Returns:
-            User info dict or None
-        """
-        if not cls._initialized:
-            cls.initialize()
-        
-        if not cls._initialized:
-            return None
-        
-        try:
-            user = firebase_auth.get_user(uid)
-            return {
-                'uid': user.uid,
-                'email': user.email,
-                'email_verified': user.email_verified,
-                'display_name': user.display_name,
-                'photo_url': user.photo_url,
-                'disabled': user.disabled,
-            }
-        except FirebaseError as e:
-            print(f"Error getting Firebase user: {e}")
+            print(f"Error verifying token: {e}")
             return None
 
 

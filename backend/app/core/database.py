@@ -16,7 +16,7 @@ Base = declarative_base()
 # Create database engine
 # NullPool prevents connection pooling issues in serverless/container environments
 engine = create_engine(
-    settings.DATABASE_URL,
+    settings.get_database_url,
     poolclass=NullPool if settings.ENVIRONMENT == "production" else None,
     echo=settings.DEBUG,
 )

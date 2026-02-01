@@ -21,6 +21,10 @@ class Settings(BaseSettings):
     # =========================================================================
     # DATABASE
     # =========================================================================
+    # Support both direct connection and Supabase URL
+    DATABASE_URL: Optional[str] = None  # Full Supabase PostgreSQL URL (if provided, overrides individual DB settings)
+    
+    # Direct connection parameters (for local development)
     DB_HOST: str = "localhost"
     DB_PORT: int = 5432
     DB_NAME: str = "survey_chat"
@@ -28,8 +32,12 @@ class Settings(BaseSettings):
     DB_PASSWORD: str = "changeme"
     
     @property
-    def DATABASE_URL(self) -> str:
-        """Construct database URL"""
+    def get_database_url(self) -> str:
+        """Get database URL, preferring Supabase if configured"""
+        if self.DATABASE_URL:
+            # Use Supabase URL if provided (production)
+            return self.DATABASE_URL
+        # Otherwise construct from individual settings (development)
         return f"postgresql://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
     
     # =========================================================================
@@ -60,7 +68,21 @@ class Settings(BaseSettings):
     LLM_MODEL: str = "gpt-4"
     OPENAI_API_KEY: Optional[str] = None
     ANTHROPIC_API_KEY: Optional[str] = None
-    EMBEDDING_MODEL: str = "text-embedding-3-large"
+    
+    # =========================================================================
+    # EMBEDDINGS & CHUNKING
+    # =========================================================================
+    EMBEDDING_MODEL: str = "text-embedding-3-large"  # OpenAI model (3072 dims)
+    EMBEDDING_DIMENSIONS: int = 3072  # text-embedding-3-large dimension
+    CHUNK_SIZE: int = 800  # tokens per chunk (balance between context and precision)
+    CHUNK_OVERLAP: int = 200  # token overlap between chunks (continuity)
+    MIN_CHUNK_SIZE: int = 100  # minimum viable chunk size
+    MAX_CHUNK_SIZE: int = 1500  # maximum chunk size
+    
+    # =========================================================================
+    # RAG CORPUS
+    # =========================================================================
+    DEFAULT_CORPUS_NAME: str = "Economic Survey 2024-25"  # Default corpus for all queries
     
     # =========================================================================
     # FRONTEND

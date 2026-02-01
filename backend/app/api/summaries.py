@@ -12,7 +12,7 @@ from pydantic import BaseModel, Field
 
 from app.core.database import get_db
 from app.models import TopicBrief, ClaimCard, Corpus
-from app.api.auth import get_current_user
+from app.api.auth import get_current_user_dependency as get_current_user, UserResponse
 
 
 router = APIRouter(prefix="/api/summaries", tags=["summaries"])

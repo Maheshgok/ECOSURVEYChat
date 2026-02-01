@@ -131,7 +131,6 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-}
   border: 2px solid #e2e8f0;
   transition: border-color 0.3s;
 }
@@ -158,4 +157,4 @@
 .app-main {
   flex: 1;
   overflow: hidden;
-
+}

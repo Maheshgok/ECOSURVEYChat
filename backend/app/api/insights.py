@@ -6,7 +6,7 @@ from sqlalchemy import text
 from typing import Dict, List, Optional
 from datetime import datetime
 
-from app.api.auth import get_current_user
+from app.api.auth import get_current_user_dependency as get_current_user, UserResponse
 from app.core.database import get_db
 from app.models import User, Insight, Summary
 from insights.extractors import InsightExtractor

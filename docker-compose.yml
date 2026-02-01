@@ -1,7 +1,7 @@
 services:
   # PostgreSQL Database with pgvector
   postgres:
-    image: postgres:15-alpine
+    image: pgvector/pgvector:pg15
     container_name: survey-postgres
     environment:
       POSTGRES_DB: survey_chat
