@@ -7,6 +7,8 @@ from typing import Optional
 import jwt
 import requests
 from datetime import datetime
+from cryptography.x509 import load_pem_x509_certificate
+from cryptography.hazmat.backends import default_backend
 from app.core.settings import settings
 
 
@@ -26,11 +28,20 @@ class FirebaseAuthService:
         if cls._certs_cache and cls._certs_expiry and now < cls._certs_expiry:
             return cls._certs_cache
         
-        # Fetch new certs
+        # Fetch new certs (X.509 certificates)
         response = requests.get(cls.GOOGLE_CERTS_URL)
         response.raise_for_status()
         
-        cls._certs_cache = response.json()
+        # Convert X.509 certificates to public keys
+        certs_dict = response.json()
+        public_keys = {}
+        
+        for kid, cert_str in certs_dict.items():
+            # Load the X.509 certificate and extract public key
+            cert = load_pem_x509_certificate(cert_str.encode(), default_backend())
+            public_keys[kid] = cert.public_key()
+        
+        cls._certs_cache = public_keys
         
         # Cache for 1 hour (Google recommends checking cache-control header)
         cache_control = response.headers.get('cache-control', '')
@@ -54,20 +65,20 @@ class FirebaseAuthService:
         """
         try:
             # Get the public keys
-            certs = cls._get_public_keys()
+            public_keys = cls._get_public_keys()
             
             # Decode header to get key ID
             header = jwt.get_unverified_header(token)
             kid = header.get('kid')
             
-            if not kid or kid not in certs:
-                print("Invalid token: key ID not found")
+            if not kid or kid not in public_keys:
+                print(f"Invalid token: key ID '{kid}' not found")
                 return None
             
-            # Verify the token
+            # Verify the token with the public key
             decoded = jwt.decode(
                 token,
-                certs[kid],
+                public_keys[kid],
                 algorithms=['RS256'],
                 audience=settings.FIREBASE_PROJECT_ID,
                 issuer=f'https://securetoken.google.com/{settings.FIREBASE_PROJECT_ID}'
