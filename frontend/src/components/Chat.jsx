@@ -27,7 +27,9 @@ function Chat({ user }) {
 
     try {
       const token = await getAuthToken()
-      const response = await fetch('/api/rag-chat-v2', {
+      // Call backend directly to avoid Netlify's 26-second proxy timeout
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || 'https://ecosurvey-backend-v2-812016027146.asia-south1.run.app'
+      const response = await fetch(`${backendUrl}/api/rag-chat-v2`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
