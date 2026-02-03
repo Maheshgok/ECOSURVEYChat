@@ -279,7 +279,7 @@ Respond with ONLY:
 
     try:
         response = get_openai_client().chat.completions.create(
-            model="gp-4o-mini",
+            model="gpt-4o-mini",
             messages=[
                 {"role": "system", "content": "You are a content safety validator. Prioritize protecting reputation."},
                 {"role": "user", "content": safety_prompt}
@@ -365,16 +365,17 @@ def apply_guardrails(
                 severity="medium"
             )
     
-    # 6. Validate response safety if answer provided
-    if answer:
-        is_safe, reason = validate_response_safety(answer, query)
-        if not is_safe:
-            raise GuardrailViolation(
-                "I apologize, but I cannot provide this response as it may not meet accuracy standards. "
-                "Please rephrase your question or ask about a specific aspect of the Economic Survey.",
-                violation_type="unsafe_response",
-                severity="high"
-            )
+    # 6. Validate response safety if answer provided - DISABLED: Too many false positives
+    # The system prompt handles graceful scope expansion and clarification
+    # if answer:
+    #     is_safe, reason = validate_response_safety(answer, query)
+    #     if not is_safe:
+    #         raise GuardrailViolation(
+    #             "I apologize, but I cannot provide this response as it may not meet accuracy standards. "
+    #             "Please rephrase your question or ask about a specific aspect of the Economic Survey.",
+    #             violation_type="unsafe_response",
+    #             severity="high"
+    #         )
 
 
 def log_security_event(
