@@ -11,8 +11,7 @@ import sys
 import traceback
 
 from app.core.settings import settings
-from app.core.database import init_db, SessionLocal
-from app.api import health, auth, chat
+from app.api import health, auth, chat, rag_chat_v2
 
 # Configure logging
 logging.basicConfig(level=settings.LOG_LEVEL)
@@ -24,28 +23,11 @@ logger = logging.getLogger(__name__)
 async def lifespan(app: FastAPI):
     """Handle app startup and shutdown"""
     # Startup
-    try:
-        logger.info("Starting Economic Survey Practitioner Chat v1.2")
-        # Skip table creation in production (Supabase schema already exists)
-        if settings.ENVIRONMENT != "production":
-            try:
-                init_db()
-                logger.info("Database initialized successfully")
-            except Exception as e:
-                logger.warning(f"Failed to initialize database: {e} (continuing without DB)")
-                traceback.print_exc(file=sys.stderr)
-        else:
-            logger.info("Production mode: skipping auto-migration (using existing Supabase schema)")
-        
-        logger.info("App ready and running")
-        yield
-    except Exception as e:
-        logger.error(f"Error in lifespan startup: {e}")
-        traceback.print_exc(file=sys.stderr)
-        raise
-    finally:
-        # Shutdown
-        logger.info("Shutting down application")
+    logger.info("Starting Economic Survey Practitioner Chat v1.2 (Pinecone-only mode)")
+    logger.info("App ready and running")
+    yield
+    # Shutdown
+    logger.info("Shutting down application")
 
 
 # Create FastAPI app
@@ -60,15 +42,17 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.CORS_ORIGINS_LIST,
+    allow_origin_regex=r"https://.*\.netlify\.app",  # Allow all Netlify preview/production URLs
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Include routers
+# Include routers (only Pinecone-based routes)
 app.include_router(health.router, prefix="/api", tags=["Health"])
-app.include_router(auth.router, prefix="/api", tags=["Authentication"])
-app.include_router(chat.router, prefix="/api", tags=["Chat"])
+# app.include_router(auth.router, prefix="/api", tags=["Authentication"])  # Disabled - requires database
+# app.include_router(chat.router, prefix="/api", tags=["Chat"])  # Disabled - requires database
+app.include_router(rag_chat_v2.router, prefix="/api", tags=["RAG Chat v2 - Advanced"])
 
 
 # Root endpoint

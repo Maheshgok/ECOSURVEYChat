@@ -1,16 +1,33 @@
-fastapi==0.104.1
-uvicorn[standard]==0.24.0
-sqlalchemy==2.0.23
-psycopg2-binary==2.9.9
-pgvector==0.2.5
-python-dotenv==1.0.0
-pydantic==2.5.0
-pydantic-settings==2.1.0
-authlib==1.2.1
-itsdangerous==2.1.2
-httpx==0.25.2
-pymupdf==1.23.8
-openpyxl==3.1.5
-python-multipart==0.0.6
-pyjwt[crypto]==2.8.0
-requests==2.31.0
+# Core FastAPI
+fastapi
+uvicorn[standard]
+python-dotenv
+pydantic
+pydantic-settings
+
+# Auth
+authlib
+itsdangerous
+python-multipart
+pyjwt[crypto]
+httpx
+
+# RAG Core Requirements
+openai
+pinecone
+
+# Database
+sqlalchemy
+psycopg2-binary
+pgvector
+
+# PDF/Excel Processing
+pymupdf
+openpyxl
+
+# Firebase (for auth/storage)
+firebase-admin
+
+# Utilities
+requests
+numpy

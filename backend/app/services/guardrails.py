@@ -1,6 +1,25 @@
 """
 Chat Guardrails - Security and Safety Layer
-Protects against jailbreaks, prompt injection, contradictions, and malicious use
+Protects against jailbreaks, prompt injection, and code injection
+
+DESIGN PHILOSOPHY:
+- Strict on security threats (jailbreak, prompt override, code injection)
+- Graceful on scope expansion (companies, economic concepts, comparative analysis)
+- Let the LLM handle nuanced interpretation rather than pattern-matching user intent
+- Pattern-based detection for clear attacks only
+- No LLM validation (too slow, causes 504 timeouts)
+
+Active Protections:
+✅ Jailbreak detection (instruction override attempts)
+✅ Code/prompt injection (XSS, SQL, command injection)
+
+Disabled for Graceful UX:
+❌ Contradiction checking (too many false positives)
+❌ Sensitive content blocking (too restrictive)
+❌ LLM-based intent validation (performance issue)
+
+The system prompt handles scope expansion intelligently - asking clarifying questions
+for unknown entities and providing helpful context for broader economic analysis.
 """
 
 import re
@@ -314,26 +333,26 @@ def apply_guardrails(
             severity="critical"
         )
     
-    # 3. Check for contradictions (false premises)
-    is_contradiction, pattern = check_contradiction(query)
-    if is_contradiction:
-        raise GuardrailViolation(
-            "I cannot answer questions based on false premises. "
-            "Please ask what the Economic Survey actually states, and I'll provide accurate information with citations.",
-            violation_type="contradiction",
-            severity="medium"
-        )
+    # 3. Check for contradictions (false premises) - DISABLED: Too many false positives
+    # is_contradiction, pattern = check_contradiction(query)
+    # if is_contradiction:
+    #     raise GuardrailViolation(
+    #         "I cannot answer questions based on false premises. "
+    #         "Please ask what the Economic Survey actually states, and I'll provide accurate information with citations.",
+    #         violation_type="contradiction",
+    #         severity="medium"
+    #     )
     
-    # 4. Check sensitive content
-    is_sensitive, pattern = check_sensitive_content(query)
-    if is_sensitive:
-        raise GuardrailViolation(
-            "I focus on providing factual economic data and analysis from official documents. "
-            "I cannot engage with questions about political controversies or sensitive allegations. "
-            "Please ask about economic indicators, policies, or projections instead.",
-            violation_type="sensitive",
-            severity="high"
-        )
+    # 4. Check sensitive content - DISABLED: Too many false positives
+    # is_sensitive, pattern = check_sensitive_content(query)
+    # if is_sensitive:
+    #     raise GuardrailViolation(
+    #         "I focus on providing factual economic data and analysis from official documents. "
+    #         "I cannot engage with questions about political controversies or sensitive allegations. "
+    #         "Please ask about economic indicators, policies, or projections instead.",
+    #         violation_type="sensitive",
+    #         severity="high"
+    #     )
     
     # 5. LLM-based intent validation (optional, slower)
     if enable_llm_validation:

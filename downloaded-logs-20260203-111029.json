@@ -1,0 +1,248 @@
+[
+  {
+    "textPayload": "Starting new instance. Reason: DEPLOYMENT_ROLLOUT - Instance started due to traffic shifting between revisions due to deployment, traffic split adjustment, or deployment health check.",
+    "insertId": "698189930007558a69f9da32",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "service_name": "ecosurvey-backend-v2",
+        "location": "asia-south1",
+        "project_id": "watch-mail-trial",
+        "revision_name": "ecosurvey-backend-v2-00006-h9l",
+        "configuration_name": "ecosurvey-backend-v2"
+      }
+    },
+    "timestamp": "2026-02-03T05:37:23.480650Z",
+    "severity": "INFO",
+    "labels": {
+      "scaling_reason": "DEPLOYMENT_ROLLOUT",
+      "instanceId": "005eb6974c5421494e62c72a3da93fdd38db7810ccb558488827d3818b76c5521f87ddc101de6bac2b94c9aadc6fed9a407dd580728351e9800ce2b0e2aab5d5b3e7aa79c6b026bffbcbc62a4fbc2665287271cf"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fvarlog%2Fsystem",
+    "receiveTimestamp": "2026-02-03T05:37:23.485476629Z"
+  },
+  {
+    "textPayload": "Traceback (most recent call last):\n  File \"/usr/local/bin/uvicorn\", line 8, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File \"/usr/local/lib/python3.11/site-packages/click/core.py\", line 1485, in __call__\n    return self.main(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/site-packages/click/core.py\", line 1406, in main\n    rv = self.invoke(ctx)\n         ^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/site-packages/click/core.py\", line 1269, in invoke\n    return ctx.invoke(self.callback, **ctx.params)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/site-packages/click/core.py\", line 824, in invoke\n    return callback(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/site-packages/uvicorn/main.py\", line 424, in main\n    run(\n  File \"/usr/local/lib/python3.11/site-packages/uvicorn/main.py\", line 594, in run\n    server.run()\n  File \"/usr/local/lib/python3.11/site-packages/uvicorn/server.py\", line 67, in run\n    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/site-packages/uvicorn/_compat.py\", line 30, in asyncio_run\n    return runner.run(main)\n           ^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/asyncio/runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"uvloop/loop.pyx\", line 1518, in uvloop.loop.Loop.run_until_complete\n  File \"/usr/local/lib/python3.11/site-packages/uvicorn/server.py\", line 71, in serve\n    await self._serve(sockets)\n  File \"/usr/local/lib/python3.11/site-packages/uvicorn/server.py\", line 78, in _serve\n    config.load()\n  File \"/usr/local/lib/python3.11/site-packages/uvicorn/config.py\", line 439, in load\n    self.loaded_app = import_from_string(self.app)\n                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/site-packages/uvicorn/importer.py\", line 19, in import_from_string\n    module = importlib.import_module(module_str)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/importlib/__init__.py\", line 126, in import_module\n    return _bootstrap._gcd_import(name[level:], package, level)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<frozen importlib._bootstrap>\", line 1204, in _gcd_import\n  File \"<frozen importlib._bootstrap>\", line 1176, in _find_and_load\n  File \"<frozen importlib._bootstrap>\", line 1147, in _find_and_load_unlocked\n  File \"<frozen importlib._bootstrap>\", line 690, in _load_unlocked\n  File \"<frozen importlib._bootstrap_external>\", line 940, in exec_module\n  File \"<frozen importlib._bootstrap>\", line 241, in _call_with_frames_removed\n  File \"/app/app/main.py\", line 14, in <module>\n    from app.api import health, auth, chat, rag_chat_v2\n  File \"/app/app/api/rag_chat_v2.py\", line 14, in <module>\n    from app.services.conversational_rag import conversational_retrieve\n  File \"/app/app/services/conversational_rag.py\", line 17, in <module>\n    client = OpenAI(api_key=os.getenv(\"OPENAI_API_KEY\"))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/site-packages/openai/_client.py\", line 137, in __init__\n    raise OpenAIError(\nopenai.OpenAIError: The api_key client option must be set either by passing api_key to the client or by setting the OPENAI_API_KEY environment variable",
+    "insertId": "698189990008cc7de788f80f",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "revision_name": "ecosurvey-backend-v2-00006-h9l",
+        "location": "asia-south1",
+        "project_id": "watch-mail-trial",
+        "service_name": "ecosurvey-backend-v2",
+        "configuration_name": "ecosurvey-backend-v2"
+      }
+    },
+    "timestamp": "2026-02-03T05:37:29.576637Z",
+    "severity": "ERROR",
+    "labels": {
+      "instanceId": "005eb6974c5421494e62c72a3da93fdd38db7810ccb558488827d3818b76c5521f87ddc101de6bac2b94c9aadc6fed9a407dd580728351e9800ce2b0e2aab5d5b3e7aa79c6b026bffbcbc62a4fbc2665287271cf"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T05:37:29.582347596Z",
+    "errorGroups": [
+      {
+        "id": "CP2Z4JyM5fPpYA"
+      }
+    ]
+  },
+  {
+    "textPayload": "Container called exit(1).",
+    "insertId": "6981899a00093d5ed569f77b",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "configuration_name": "ecosurvey-backend-v2",
+        "revision_name": "ecosurvey-backend-v2-00006-h9l",
+        "project_id": "watch-mail-trial",
+        "service_name": "ecosurvey-backend-v2",
+        "location": "asia-south1"
+      }
+    },
+    "timestamp": "2026-02-03T05:37:30.603398784Z",
+    "severity": "WARNING",
+    "labels": {
+      "container_name": "ecosurvey-backend-v2-1",
+      "instanceId": "005eb6974c5421494e62c72a3da93fdd38db7810ccb558488827d3818b76c5521f87ddc101de6bac2b94c9aadc6fed9a407dd580728351e9800ce2b0e2aab5d5b3e7aa79c6b026bffbcbc62a4fbc2665287271cf"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fvarlog%2Fsystem",
+    "receiveTimestamp": "2026-02-03T05:37:30.865679100Z"
+  },
+  {
+    "textPayload": "Default STARTUP TCP probe failed 1 time consecutively for container \"ecosurvey-backend-v2-1\" on port 8080. The instance was not started.\nConnection failed with status CANCELLED.",
+    "insertId": "6981899a000b57c59cf5da41",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "service_name": "ecosurvey-backend-v2",
+        "location": "asia-south1",
+        "project_id": "watch-mail-trial",
+        "revision_name": "ecosurvey-backend-v2-00006-h9l",
+        "configuration_name": "ecosurvey-backend-v2"
+      }
+    },
+    "timestamp": "2026-02-03T05:37:30.743365Z",
+    "severity": "ERROR",
+    "labels": {
+      "instanceId": "005eb6974c5421494e62c72a3da93fdd38db7810ccb558488827d3818b76c5521f87ddc101de6bac2b94c9aadc6fed9a407dd580728351e9800ce2b0e2aab5d5b3e7aa79c6b026bffbcbc62a4fbc2665287271cf"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fvarlog%2Fsystem",
+    "receiveTimestamp": "2026-02-03T05:37:30.865679100Z"
+  },
+  {
+    "protoPayload": {
+      "@type": "type.googleapis.com/google.cloud.audit.AuditLog",
+      "status": {
+        "code": 9,
+        "message": "Ready condition status changed to False for Revision ecosurvey-backend-v2-00006-h9l with message: The user-provided container failed to start and listen on the port defined provided by the PORT=8080 environment variable within the allocated timeout. This can happen when the container port is misconfigured or if the timeout is too short. The health check timeout can be extended. Logs for this revision might contain more information.\n\nLogs URL: https://console.cloud.google.com/logs/viewer?project=watch-mail-trial&resource=cloud_run_revision/service_name/ecosurvey-backend-v2/revision_name/ecosurvey-backend-v2-00006-h9l&advancedFilter=resource.type%3D%22cloud_run_revision%22%0Aresource.labels.service_name%3D%22ecosurvey-backend-v2%22%0Aresource.labels.revision_name%3D%22ecosurvey-backend-v2-00006-h9l%22 \nFor more troubleshooting guidance, see https://cloud.google.com/run/docs/troubleshooting#container-failed-to-start"
+      },
+      "serviceName": "run.googleapis.com",
+      "methodName": "/Services.ReplaceService",
+      "resourceName": "namespaces/watch-mail-trial/revisions/ecosurvey-backend-v2-00006-h9l",
+      "response": {
+        "metadata": {
+          "name": "ecosurvey-backend-v2-00006-h9l",
+          "namespace": "812016027146",
+          "selfLink": "/apis/serving.knative.dev/v1/namespaces/812016027146/revisions/ecosurvey-backend-v2-00006-h9l",
+          "uid": "87454751-8d8e-441f-a0c3-7ad14c96d9a3",
+          "resourceVersion": "AAZJ5NXtdWg",
+          "generation": 1,
+          "creationTimestamp": "2026-02-03T05:37:14.449617Z",
+          "labels": {
+            "client.knative.dev/nonce": "vwtakrajhl",
+            "serving.knative.dev/configuration": "ecosurvey-backend-v2",
+            "serving.knative.dev/configurationGeneration": "6",
+            "serving.knative.dev/service": "ecosurvey-backend-v2",
+            "serving.knative.dev/serviceUid": "4a45efde-f540-442b-bf72-5aea0d9bff45",
+            "serving.knative.dev/route": "ecosurvey-backend-v2",
+            "run.googleapis.com/satisfiesPzs": "true",
+            "cloud.googleapis.com/location": "asia-south1",
+            "run.googleapis.com/startupProbeType": "Default"
+          },
+          "annotations": {
+            "autoscaling.knative.dev/maxScale": "10",
+            "run.googleapis.com/client-name": "gcloud",
+            "run.googleapis.com/client-version": "544.0.0",
+            "serving.knative.dev/creator": "mahesh@edgechurn.ai",
+            "run.googleapis.com/build-source-location": "{\"ecosurvey-backend-v2-1\":\"gs://run-sources-watch-mail-trial-asia-south1/services/ecosurvey-backend-v2/1770096879.17617-b89c5f9d12704dc596d0f2cc0955a0e9.zip#1770096879950093\"}",
+            "run.googleapis.com/operation-id": "06770e45-2895-4e07-92f2-9d7901bb2684",
+            "run.googleapis.com/startup-cpu-boost": "true"
+          },
+          "ownerReferences": [
+            {
+              "kind": "Configuration",
+              "name": "ecosurvey-backend-v2",
+              "uid": "8ecca12d-d265-41f3-bc67-e621df0312ce",
+              "apiVersion": "serving.knative.dev/v1",
+              "controller": true,
+              "blockOwnerDeletion": true
+            }
+          ]
+        },
+        "apiVersion": "serving.knative.dev/v1",
+        "kind": "Revision",
+        "spec": {
+          "containerConcurrency": 80,
+          "timeoutSeconds": 600,
+          "serviceAccountName": "812016027146-compute@developer.gserviceaccount.com",
+          "containers": [
+            {
+              "name": "ecosurvey-backend-v2-1",
+              "image": "asia-south1-docker.pkg.dev/watch-mail-trial/cloud-run-source-deploy/ecosurvey-backend-v2@sha256:79021a0e22bad5d39faf1eb2d7410fb45c4896b7405997ebd50524b9e7e751df",
+              "ports": [
+                {
+                  "name": "http1",
+                  "containerPort": 8080
+                }
+              ],
+              "env": [
+                {
+                  "name": "FIREBASE_PROJECT_ID",
+                  "value": "watch-mail-trial"
+                }
+              ],
+              "resources": {
+                "limits": {
+                  "cpu": "2",
+                  "memory": "4Gi"
+                }
+              },
+              "startupProbe": {
+                "timeoutSeconds": 240,
+                "periodSeconds": 240,
+                "failureThreshold": 1,
+                "tcpSocket": {
+                  "port": 8080
+                }
+              }
+            }
+          ]
+        },
+        "status": {
+          "observedGeneration": 1,
+          "conditions": [
+            {
+              "type": "Ready",
+              "status": "False",
+              "reason": "HealthCheckContainerError",
+              "message": "The user-provided container failed to start and listen on the port defined provided by the PORT=8080 environment variable within the allocated timeout. This can happen when the container port is misconfigured or if the timeout is too short. The health check timeout can be extended. Logs for this revision might contain more information.\n\nLogs URL: https://console.cloud.google.com/logs/viewer?project=watch-mail-trial&resource=cloud_run_revision/service_name/ecosurvey-backend-v2/revision_name/ecosurvey-backend-v2-00006-h9l&advancedFilter=resource.type%3D%22cloud_run_revision%22%0Aresource.labels.service_name%3D%22ecosurvey-backend-v2%22%0Aresource.labels.revision_name%3D%22ecosurvey-backend-v2-00006-h9l%22 \nFor more troubleshooting guidance, see https://cloud.google.com/run/docs/troubleshooting#container-failed-to-start",
+              "lastTransitionTime": "2026-02-03T05:37:30.744168Z"
+            },
+            {
+              "type": "ContainerHealthy",
+              "status": "False",
+              "reason": "HealthCheckContainerError",
+              "message": "The user-provided container failed to start and listen on the port defined provided by the PORT=8080 environment variable within the allocated timeout. This can happen when the container port is misconfigured or if the timeout is too short. The health check timeout can be extended. Logs for this revision might contain more information.\n\nLogs URL: https://console.cloud.google.com/logs/viewer?project=watch-mail-trial&resource=cloud_run_revision/service_name/ecosurvey-backend-v2/revision_name/ecosurvey-backend-v2-00006-h9l&advancedFilter=resource.type%3D%22cloud_run_revision%22%0Aresource.labels.service_name%3D%22ecosurvey-backend-v2%22%0Aresource.labels.revision_name%3D%22ecosurvey-backend-v2-00006-h9l%22 \nFor more troubleshooting guidance, see https://cloud.google.com/run/docs/troubleshooting#container-failed-to-start",
+              "lastTransitionTime": "2026-02-03T05:37:30.744168Z"
+            },
+            {
+              "type": "ContainerReady",
+              "status": "True",
+              "message": "Container image import completed in 6.22s.",
+              "lastTransitionTime": "2026-02-03T05:37:21.276099Z"
+            },
+            {
+              "type": "ResourcesAvailable",
+              "status": "True",
+              "message": "Provisioning imported containers completed in 2.03s. Checking container health. This will wait for up to 4m for the configured startup probe, including an initial delay of 0s.",
+              "lastTransitionTime": "2026-02-03T05:37:23.307234Z"
+            },
+            {
+              "type": "Retry",
+              "status": "True",
+              "reason": "ImmediateRetry",
+              "message": "System will retry after 00:00 from lastTransitionTime for attempt 0.",
+              "lastTransitionTime": "2026-02-03T05:37:23.307234Z",
+              "severity": "Info"
+            }
+          ],
+          "logUrl": "https://console.cloud.google.com/logs/viewer?project=watch-mail-trial&resource=cloud_run_revision/service_name/ecosurvey-backend-v2/revision_name/ecosurvey-backend-v2-00006-h9l&advancedFilter=resource.type%3D%22cloud_run_revision%22%0Aresource.labels.service_name%3D%22ecosurvey-backend-v2%22%0Aresource.labels.revision_name%3D%22ecosurvey-backend-v2-00006-h9l%22",
+          "imageDigest": "asia-south1-docker.pkg.dev/watch-mail-trial/cloud-run-source-deploy/ecosurvey-backend-v2@sha256:79021a0e22bad5d39faf1eb2d7410fb45c4896b7405997ebd50524b9e7e751df",
+          "containerStatuses": [
+            {
+              "name": "ecosurvey-backend-v2-1",
+              "imageDigest": "asia-south1-docker.pkg.dev/watch-mail-trial/cloud-run-source-deploy/ecosurvey-backend-v2@sha256:79021a0e22bad5d39faf1eb2d7410fb45c4896b7405997ebd50524b9e7e751df"
+            }
+          ]
+        },
+        "@type": "type.googleapis.com/google.cloud.run.v1.Revision"
+      }
+    },
+    "insertId": "-wpcakhd4b2u",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "service_name": "ecosurvey-backend-v2",
+        "location": "asia-south1",
+        "revision_name": "ecosurvey-backend-v2-00006-h9l",
+        "configuration_name": "ecosurvey-backend-v2",
+        "project_id": "watch-mail-trial"
+      }
+    },
+    "timestamp": "2026-02-03T05:37:30.757741Z",
+    "severity": "ERROR",
+    "logName": "projects/watch-mail-trial/logs/cloudaudit.googleapis.com%2Fsystem_event",
+    "receiveTimestamp": "2026-02-03T05:37:31.306741087Z"
+  }
+]

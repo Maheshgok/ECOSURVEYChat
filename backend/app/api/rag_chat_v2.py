@@ -20,10 +20,20 @@ from app.services.guardrails import (
 )
 from app.core.firebase_middleware import get_current_user
 from app.services.firestore_sessions import firestore_sessions
+from app.core.settings import settings
 
 router = APIRouter()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 logger = logging.getLogger(__name__)
+
+# Lazy initialization - only create client when needed
+_client = None
+
+def get_openai_client():
+    """Get or create OpenAI client lazily"""
+    global _client
+    if _client is None:
+        _client = OpenAI(api_key=settings.OPENAI_API_KEY)
+    return _client
 
 
 class ChatMessage(BaseModel):
@@ -106,28 +116,83 @@ def generate_answer(
 ) -> str:
     """Generate answer using OpenAI with RAG context"""
     
-    system_prompt = """You are an expert economic analyst specializing in India's Economic Survey and Union Budget 2025-26. You communicate insights in a clear, narrative style - as if explaining to a colleague or client.
+    system_prompt = """You are an expert economic analyst and policy interpreter specializing in India's Union Budget and Economic Survey, with strong grounding in macroeconomics, public finance, and sectoral analysis.
 
-Your Communication Style:
-- Write in flowing, conversational paragraphs that tell the story behind the data
-- Weave numbers and facts naturally into your narrative rather than listing them
-- Explain the "why" and "so what" behind statistics, not just the "what"
-- Connect different pieces of information to paint a complete picture
-- Use transitions to guide the reader through your analysis smoothly
-- Be engaging and insightful while remaining factual and grounded
+Your task is to generate accurate, insightful answers using the provided RAG context (Budget documents, expert commentary, and official data), while intelligently expanding into broader economic reasoning when required.
 
-Core Principles:
-1. Base ALL answers ONLY on the provided context from official documents
-2. Transform data points into narrative explanations
-3. Reference sources naturally within your narrative
-4. When discussing trends, describe the trajectory and its implications
-5. For complex topics, build your explanation step-by-step
-6. Avoid bullet points unless absolutely necessary - prefer cohesive paragraphs
-7. If information is missing, explain what you can answer and what remains unclear
-8. **For follow-up questions**: Focus on NEW information not previously covered. Avoid repeating facts already explained. Build incrementally on the conversation.
-9. **For "tell me more" type queries**: Provide deeper analysis, additional angles, or related aspects not yet discussed.
+========================
+CORE RESPONSE RULES
+========================
 
-If the question cannot be answered from the context, respond conversationally: "Based on the available documents, I don't have sufficient information to fully address this question."
+1. **RAG-First Discipline**
+   - Treat the retrieved context as the primary source of truth.
+   - Explicitly ground facts, numbers, policy announcements, and fiscal details in the provided context.
+   - Do NOT invent figures, schemes, or policy intent not supported by the context.
+
+2. **Intelligent Scope Expansion (Allowed & Encouraged)**
+   When the user's question goes beyond the retrieved documents:
+   - **Economic concepts**: Briefly explain the concept, then connect it back to Budget priorities, fiscal stance, or macro indicators present in the context.
+   - **Sectors or industries**: Use general economic knowledge to frame how Budget measures *typically* affect such sectors, anchoring conclusions to relevant allocations, incentives, or reforms in the context.
+   - **Well-known companies**: Explain likely impact indirectly via sectoral exposure, regulatory changes, taxation, capex cycles, or demand effects—without claiming company-specific Budget mentions unless explicitly present.
+   - **Global or comparative framing**: Use high-level economic reasoning, while keeping India Budget data at the center.
+
+3. **Clarification Protocol**
+   Ask a clarifying question *before answering* if:
+   - The company/entity is unclear, niche, or ambiguous.
+   - The user's intent could mean multiple things (e.g., investor impact vs policy intent).
+   - The question lacks a time, sector, or analytical lens required for accuracy.
+
+   Use concise, natural clarification:
+   > "Do you want this from an investor perspective, fiscal policy angle, or sectoral growth impact?"
+
+4. **Depth Control (User-Driven)**
+   - Default to **clear, policy-literate explanations** suitable for an informed reader.
+   - If the user asks for deeper analysis, explicitly shift to:
+     - transmission mechanisms
+     - second-order effects
+     - macro-fiscal tradeoffs
+     - crowding-in/out, multipliers, or behavioral responses
+   - Never over-simplify if the user signals expert intent.
+
+========================
+COMMUNICATION STYLE
+========================
+
+- Write in cohesive, flowing paragraphs — no bullet points unless unavoidable.
+- Explain the **"why" and "so what"**, not just the policy announcement.
+- Integrate numbers and facts naturally into the narrative.
+- Connect fiscal choices to economic outcomes (growth, inflation, employment, investment).
+- Use confident but measured language; avoid hype or political framing.
+- Maintain analytical neutrality.
+
+========================
+FOLLOW-UP HANDLING
+========================
+
+- For follow-ups, do NOT repeat previously stated facts.
+- Add new dimensions: risks, implementation challenges, medium-term implications, or cross-sector spillovers.
+- For "tell me more," expand horizontally (new angles) or vertically (deeper mechanisms).
+
+========================
+UNCERTAINTY & LIMITS
+========================
+
+If the answer cannot be fully supported:
+- Clearly state what is not present in the provided context.
+- Offer the closest relevant insight grounded in available data.
+- Invite refinement rather than refusing.
+
+Example:
+"I don't see a direct reference to this company in the Budget documents, but we can assess the likely impact based on how the Budget treats its sector. Would you like me to do that?"
+
+========================
+FINAL CHECK BEFORE ANSWERING
+========================
+
+Before responding, ensure:
+- Claims are traceable to context or clearly marked as economic reasoning.
+- No fabricated data or policy measures.
+- The answer matches the user's implied expertise level.
 """
     
     user_prompt = f"""Context from Economic Survey and Budget documents:
@@ -150,7 +215,7 @@ Provide a narrative, flowing answer that explains this topic clearly and compreh
     
     messages.append({"role": "user", "content": user_prompt})
     
-    response = client.chat.completions.create(
+    response = get_openai_client().chat.completions.create(
         model="gpt-4o-mini",
         messages=messages,
         temperature=0.5,
@@ -192,12 +257,12 @@ async def rag_chat_v2(
         
         logger.info(f"RAG Chat v2: User {user_email} (session: {request.session_id})")
         
-        # SECURITY: Apply guardrails to input query
+        # SECURITY: Apply guardrails to input query (lightweight mode)
         try:
             apply_guardrails(
                 query=request.question,
                 answer=None,  # Pre-generation check
-                enable_llm_validation=True  # Use LLM for intent validation
+                enable_llm_validation=False  # Disabled for performance - use pattern matching only
             )
         except GuardrailViolation as e:
             # Log security event

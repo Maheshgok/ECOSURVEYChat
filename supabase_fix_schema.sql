@@ -73,4 +73,4 @@ CREATE INDEX idx_messages_corpus_id ON messages(corpus_id);
 
 -- Insert default corpus
 INSERT INTO corpuses (name, description) 
-VALUES ('Economic Survey 2024-25', 'Economic Survey of India 2024-25');
+VALUES ('Economic Survey 2025-26', 'Economic Survey of India 2025-26');

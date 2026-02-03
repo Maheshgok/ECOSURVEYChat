@@ -89,12 +89,15 @@ class Settings(BaseSettings):
     # =========================================================================
     FRONTEND_URL: str = "http://localhost:3000"
     FRONTEND_API_URL: str = "http://localhost:8000"
-    CORS_ORIGINS: str = "http://localhost:3000,http://localhost:8000"
+    CORS_ORIGINS: str = "http://localhost:3000,http://localhost:8000,https://economicchat.netlify.app"
     
     @property
     def CORS_ORIGINS_LIST(self) -> List[str]:
-        """Convert comma-separated origins to list"""
-        return [origin.strip() for origin in self.CORS_ORIGINS.split(",")]
+        """Convert comma-separated origins to list, filter Netlify patterns"""
+        origins = [origin.strip() for origin in self.CORS_ORIGINS.split(",")]
+        # Allow all Netlify domains by using regex-like pattern
+        # Note: FastAPI CORS doesn't support wildcards, so we use allow_origin_regex instead
+        return origins
     
     # =========================================================================
     # GCP (Production)
