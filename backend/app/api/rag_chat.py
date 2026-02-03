@@ -1,0 +1,313 @@
+"""
+RAG Chat API - Pinecone-based
+Basic RAG endpoint with optional Firebase authentication
+"""
+
+from fastapi import APIRouter, HTTPException, Depends
+from pydantic import BaseModel
+from typing import List, Optional
+from openai import OpenAI
+import os
+import logging
+from dotenv import load_dotenv
+
+from app.core.pinecone_db import get_pinecone_index
+from app.services.guardrails import (
+    apply_guardrails,
+    GuardrailViolation,
+    log_security_event,
+    get_refusal_message
+)
+from app.core.firebase_middleware import get_current_user_optional
+
+load_dotenv()
+
+router = APIRouter()
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+logger = logging.getLogger(__name__)
+
+
+class ChatMessage(BaseModel):
+    role: str  # "user" or "assistant"
+    content: str
+
+
+class ChatRequest(BaseModel):
+    question: str
+    top_k: Optional[int] = 5
+    conversation_history: Optional[List[ChatMessage]] = None
+
+
+class Citation(BaseModel):
+    source: str
+    document: str
+    page: Optional[str] = None
+    chapter: Optional[str] = None
+    section: Optional[str] = None
+    sheet: Optional[str] = None
+    score: float
+
+
+class ChatResponse(BaseModel):
+    answer: str
+    citations: List[Citation]
+    context_used: int
+
+
+def generate_query_embedding(query: str) -> List[float]:
+    """Generate embedding for the query"""
+    response = client.embeddings.create(
+        model="text-embedding-3-large",
+        input=query
+    )
+    return response.data[0].embedding
+
+
+def retrieve_relevant_chunks(query: str, top_k: int = 5):
+    """Retrieve relevant chunks from Pinecone"""
+    query_embedding = generate_query_embedding(query)
+    
+    index = get_pinecone_index()
+    results = index.query(
+        vector=query_embedding,
+        top_k=top_k,
+        include_metadata=True
+    )
+    
+    return results['matches']
+
+
+def build_context(chunks) -> str:
+    """Build context string from retrieved chunks"""
+    context_parts = []
+    
+    for i, chunk in enumerate(chunks, 1):
+        metadata = chunk.get('metadata', {})
+        text = metadata.get('text', '')
+        
+        source_type = metadata.get('source_type', 'unknown')
+        doc_title = metadata.get('document_title', 'Unknown')
+        
+        if source_type == 'pdf':
+            page_info = f"Pages {metadata.get('page_start', '?')}-{metadata.get('page_end', '?')}"
+            chapter = metadata.get('chapter', '')
+            section = metadata.get('section', '')
+            
+            source_label = f"[Source {i}: {doc_title}, {page_info}"
+            if chapter:
+                source_label += f", Chapter: {chapter[:50]}"
+            if section:
+                source_label += f", Section: {section[:50]}"
+            source_label += "]"
+        else:
+            sheet_name = metadata.get('sheet_name', 'Unknown')
+            source_label = f"[Source {i}: {doc_title}, Sheet: {sheet_name}]"
+        
+        context_parts.append(f"{source_label}\n{text}")
+    
+    return "\n\n---\n\n".join(context_parts)
+
+
+def build_citations(chunks) -> List[Citation]:
+    """Build citation list from chunks"""
+    citations = []
+    
+    for chunk in chunks:
+        metadata = chunk.get('metadata', {})
+        source_type = metadata.get('source_type', 'unknown')
+        
+        citation = Citation(
+            source=metadata.get('corpus_name', 'Unknown'),
+            document=metadata.get('document_title', 'Unknown'),
+            score=chunk.get('score', 0.0)
+        )
+        
+        if source_type == 'pdf':
+            page_start = metadata.get('page_start')
+            page_end = metadata.get('page_end')
+            if page_start and page_end:
+                citation.page = f"{page_start}-{page_end}"
+            citation.chapter = metadata.get('chapter', '')[:100] if metadata.get('chapter') else None
+            citation.section = metadata.get('section', '')[:100] if metadata.get('section') else None
+        else:
+            citation.sheet = metadata.get('sheet_name', 'Unknown')
+        
+        citations.append(citation)
+    
+    return citations
+
+
+def generate_answer(question: str, context: str, conversation_history: Optional[List[dict]] = None) -> str:
+    """Generate answer using OpenAI with RAG context and conversation history"""
+    
+    system_prompt = """You are an expert economic analyst specializing in India's Economic Survey and Union Budget 2025-26. You communicate insights in a clear, narrative style - as if explaining to a colleague or client.
+
+Your Communication Style:
+- Write in flowing, conversational paragraphs that tell the story behind the data
+- Weave numbers and facts naturally into your narrative rather than listing them
+- Explain the "why" and "so what" behind statistics, not just the "what"
+- Connect different pieces of information to paint a complete picture
+- Use transitions to guide the reader through your analysis smoothly
+- Be engaging and insightful while remaining factual and grounded
+
+Core Principles:
+1. Base ALL answers ONLY on the provided context from official documents
+2. Transform data points into narrative explanations (e.g., instead of "GDP growth is 6.5%", say "The economy is projected to grow at 6.5%, reflecting resilient domestic demand despite global headwinds")
+3. Reference sources naturally within your narrative (e.g., "The Survey highlights that...", "Budget documents reveal...")
+4. When discussing trends, describe the trajectory and its implications, not just the numbers
+5. For complex topics, build your explanation step-by-step, showing relationships between concepts
+6. Avoid bullet points unless absolutely necessary - prefer cohesive paragraphs
+7. If information is missing, explain what you can answer and what remains unclear
+8. For follow-up questions, acknowledge the previous discussion briefly but focus on NEW information - don't repeat what was already explained
+9. If a follow-up asks to elaborate, provide deeper analysis or additional angles not covered before
+
+Think of yourself as a seasoned economist writing a briefing note - authoritative, clear, and narrative-driven, not a fact-listing search engine.
+
+If the question cannot be answered from the context, respond conversationally: "Based on the available documents, I don't have sufficient information to fully address this question. Here's what I can tell you about related aspects..." (if any partial information exists) OR "The available documents don't cover this specific aspect."
+"""
+    
+    user_prompt = f"""Context from Economic Survey and Budget documents:
+
+{context}
+
+---
+
+Question: {question}
+
+Provide a narrative, flowing answer that explains this topic clearly and comprehensively. Weave the data and facts into a cohesive story rather than listing them. Help the reader understand not just what the numbers are, but what they mean and why they matter."""
+    
+    # Build messages with conversation history
+    messages = [{"role": "system", "content": system_prompt}]
+    
+    # Add conversation history if provided (keep last 3 exchanges max to avoid token bloat)
+    if conversation_history:
+        recent_history = conversation_history[-6:]  # Last 3 user + 3 assistant messages
+        messages.extend([{"role": msg["role"], "content": msg["content"]} for msg in recent_history])
+    
+    messages.append({"role": "user", "content": user_prompt})
+    
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=messages,
+        temperature=0.5,
+        max_tokens=1500
+    )
+    
+    return response.choices[0].message.content
+
+
+@router.post("/rag-chat", response_model=ChatResponse)
+async def rag_chat(
+    request: ChatRequest,
+    user: Optional[dict] = Depends(get_current_user_optional)
+):
+    """
+    Basic RAG-powered chat endpoint with optional Firebase authentication
+    
+    Authentication: Optional (supports both authenticated and anonymous users)
+    
+    If authenticated:
+    - Logs user activity for monitoring
+    - Can be used for rate limiting (future)
+    - Better security audit trail
+    
+    If anonymous:
+    - Still works normally
+    - Limited monitoring
+    """
+    try:
+        # Log authentication status
+        if user:
+            user_id = user['uid']
+            user_email = user.get('email', 'unknown')
+            logger.info(f"RAG Chat: Authenticated user {user_email}")
+        else:
+            user_id = None
+            logger.info("RAG Chat: Anonymous user")
+        
+        # Input validation
+        if not request.question or len(request.question.strip()) == 0:
+            raise HTTPException(status_code=400, detail="Question cannot be empty")
+        
+        # SECURITY: Apply guardrails to input query
+        try:
+            apply_guardrails(
+                query=request.question,
+                answer=None,
+                enable_llm_validation=True  # Use LLM validation
+            )
+        except GuardrailViolation as e:
+            # Log security event
+            log_security_event(
+                query=request.question,
+                violation_type=e.violation_type,
+                severity=e.severity
+            )
+            
+            # Return safe refusal message
+            refusal_message = get_refusal_message(e.violation_type)
+            logger.info(f"Guardrail blocked query: {e.violation_type}")
+            
+            return ChatResponse(
+                answer=refusal_message,
+                citations=[],
+                context_used=0
+            )
+        
+        # Retrieve relevant chunks
+        chunks = retrieve_relevant_chunks(request.question, top_k=request.top_k)
+        
+        if not chunks:
+            raise HTTPException(status_code=404, detail="No relevant information found")
+        
+        # Build context and citations
+        context = build_context(chunks)
+        citations = build_citations(chunks)
+        
+        # Convert conversation history to dict format if provided
+        history_dicts = None
+        if request.conversation_history:
+            history_dicts = [{"role": msg.role, "content": msg.content} for msg in request.conversation_history]
+        
+        # Generate answer with conversation history
+        answer = generate_answer(request.question, context, history_dicts)
+        
+        # SECURITY: Validate response safety
+        try:
+            apply_guardrails(
+                query=request.question,
+                answer=answer,
+                enable_llm_validation=False  # Skip intent check for output
+            )
+        except GuardrailViolation as e:
+            # Log security event
+            log_security_event(
+                query=request.question,
+                violation_type=e.violation_type,
+                severity=e.severity
+            )
+            
+            # Return safe fallback message
+            refusal_message = get_refusal_message(e.violation_type)
+            logger.warning(f"Response blocked by guardrails: {e.violation_type}")
+            
+            return ChatResponse(
+                answer=refusal_message,
+                citations=[],
+                context_used=0
+            )
+        
+        return ChatResponse(
+            answer=answer,
+            citations=citations,
+            context_used=len(chunks)
+        )
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error processing request: {str(e)}")
+
+
+@router.get("/health")
+async def health_check():
+    """Health check endpoint"""
+    return {"status": "healthy", "service": "rag-chat"}

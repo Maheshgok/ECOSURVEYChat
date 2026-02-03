@@ -27,15 +27,16 @@ function Chat({ user }) {
 
     try {
       const token = await getAuthToken()
-      const response = await fetch('/api/chat', {
+      const response = await fetch('/api/rag-chat-v2', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
-          message: input,
-          conversation_id: null
+          question: input,
+          session_id: `session-${user.uid}`,
+          top_k: 5
         })
       })
 
@@ -44,10 +45,16 @@ function Chat({ user }) {
       }
 
       const data = await response.json()
+      
+      // Detect guardrail violation: no citations and no context used
+      const isBlocked = data.citations?.length === 0 && data.context_used === 0
+      
       const assistantMessage = {
         role: 'assistant',
-        content: data.response,
-        evidence: data.evidence
+        content: data.answer,
+        citations: data.citations || [],
+        isBlocked: isBlocked,
+        turnNumber: data.turn_number
       }
       
       setMessages(prev => [...prev, assistantMessage])
@@ -72,23 +79,26 @@ function Chat({ user }) {
             <h4>Features</h4>
             <ul className="drawer-list">
               <li>📊 Evidence-grounded answers with citations</li>
-              <li>📈 Real-time data from Economic Survey XLSX</li>
-              <li>🔗 Cross-linked documents and datasets</li>
-              <li>🎯 Practitioner-grade insights</li>
-              <li>📱 Real-time streaming responses</li>
+              <li>� Conversational context across turns</li>
+              <li>🔒 Multi-layer security guardrails</li>
+              <li>🎯 Practitioner-grade economic insights</li>
+              <li>📈 Real-time data from Economic Survey</li>
             </ul>
           </section>
 
           <section className="drawer-section">
             <h4>Sample Questions</h4>
-            <button className="sample-question" onClick={() => { setInput("What are the key economic indicators?"); setDrawerOpen(false); }}>
-              What are the key economic indicators?
+            <button className="sample-question" onClick={() => { setInput("What are India's GDP growth projections for FY27?"); setDrawerOpen(false); }}>
+              What are India's GDP growth projections for FY27?
             </button>
-            <button className="sample-question" onClick={() => { setInput("Show me GDP growth trends"); setDrawerOpen(false); }}>
-              Show me GDP growth trends
+            <button className="sample-question" onClick={() => { setInput("Explain the inflation trends in the latest survey"); setDrawerOpen(false); }}>
+              Explain the inflation trends in the latest survey
             </button>
-            <button className="sample-question" onClick={() => { setInput("Summarize employment data"); setDrawerOpen(false); }}>
-              Summarize employment data
+            <button className="sample-question" onClick={() => { setInput("What does the survey say about employment data?"); setDrawerOpen(false); }}>
+              What does the survey say about employment data?
+            </button>
+            <button className="sample-question" onClick={() => { setInput("Compare consumption patterns across sectors"); setDrawerOpen(false); }}>
+              Compare consumption patterns across sectors
             </button>
           </section>
 
@@ -116,12 +126,14 @@ function Chat({ user }) {
 
         <div className="messages">
         {messages.map((msg, idx) => (
-          <div key={idx} className={`message ${msg.role}`}>
+          <div key={idx} className={`message ${msg.role} ${msg.isBlocked ? 'blocked' : ''}`}>
             <div className="message-avatar">
               {msg.role === 'user' ? (
                 <img src={user.photoURL} alt="You" />
               ) : (
-                <div className="bot-avatar">🤖</div>
+                <div className={`bot-avatar ${msg.isBlocked ? 'blocked' : ''}`}>
+                  {msg.isBlocked ? '🛡️' : '🤖'}
+                </div>
               )}
             </div>
             <div className="message-content">
@@ -129,16 +141,30 @@ function Chat({ user }) {
                 <p>{msg.content}</p>
               ) : (
                 <>
+                  {msg.isBlocked && (
+                    <div className="blocked-banner">
+                      <span className="blocked-icon">⚠️</span>
+                      <span className="blocked-text">Request Blocked by Security</span>
+                    </div>
+                  )}
                   <ReactMarkdown>{msg.content}</ReactMarkdown>
-                  {msg.evidence && msg.evidence.length > 0 && (
-                    <div className="evidence">
-                      <h4>📚 Evidence</h4>
-                      {msg.evidence.map((ev, i) => (
-                        <div key={i} className="evidence-item">
-                          <strong>{ev.source}</strong>
-                          <p>{ev.text.substring(0, 200)}...</p>
-                        </div>
-                      ))}
+                  {msg.citations && msg.citations.length > 0 && (
+                    <div className="citations">
+                      <h4>📚 Sources</h4>
+                      <div className="citations-list">
+                        {msg.citations.map((citation, i) => (
+                          <div key={i} className="citation-item">
+                            <div className="citation-source">
+                              <strong>{citation.document}</strong>
+                              {citation.chapter && <span className="citation-meta"> • {citation.chapter}</span>}
+                              {citation.page && <span className="citation-meta"> • Page {citation.page}</span>}
+                            </div>
+                            <div className="citation-score">
+                              Relevance: {(citation.score * 100).toFixed(0)}%
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   )}
                 </>

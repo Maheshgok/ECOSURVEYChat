@@ -18,19 +18,9 @@ const provider = new GoogleAuthProvider()
 export const signInWithGoogle = async () => {
   try {
     const result = await signInWithPopup(auth, provider)
-    // Get Firebase ID token
-    const idToken = await result.user.getIdToken()
     
-    // Send to backend for authentication
-    const response = await fetch('/api/auth/firebase', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token: idToken })
-    })
-    
-    const data = await response.json()
-    // Store backend access token
-    localStorage.setItem('accessToken', data.access_token)
+    // That's it! Firebase handles everything
+    // No backend call needed - we'll pass the token directly to API calls
     
     return result.user
   } catch (error) {
@@ -42,7 +32,6 @@ export const signInWithGoogle = async () => {
 export const signOutUser = async () => {
   try {
     await signOut(auth)
-    localStorage.removeItem('accessToken')
   } catch (error) {
     console.error('Error signing out:', error)
   }
@@ -50,8 +39,10 @@ export const signOutUser = async () => {
 
 export const getAuthToken = async () => {
   const user = auth.currentUser
-  if (user) {
-    return await user.getIdToken()
+  if (!user) {
+    throw new Error('Not authenticated')
   }
-  return null
+  
+  // Get fresh token (Firebase handles refresh automatically)
+  return await user.getIdToken(/* forceRefresh */ false)
 }
