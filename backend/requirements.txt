@@ -21,6 +21,9 @@ sqlalchemy
 psycopg2-binary
 pgvector
 
+# Session caching
+redis
+
 # PDF/Excel Processing
 pymupdf
 openpyxl

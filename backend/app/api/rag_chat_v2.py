@@ -4,9 +4,9 @@ Uses multi-query retrieval, deduplication, MMR, and session management
 Now with Firebase authentication and Firestore session persistence
 """
 
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, BackgroundTasks
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import List, Optional, Dict
 from openai import OpenAI
 import os
 import logging
@@ -20,6 +20,7 @@ from app.services.guardrails import (
 )
 from app.core.firebase_middleware import get_current_user
 from app.services.firestore_sessions import firestore_sessions
+from app.services.redis_sessions import redis_cache
 from app.core.settings import settings
 
 router = APIRouter()
@@ -225,17 +226,63 @@ Provide a narrative, flowing answer that explains this topic clearly and compreh
     return response.choices[0].message.content
 
 
+async def save_session_async(
+    session_id: str,
+    user_id: str,
+    conversation_history: List[Dict],
+    metadata: Dict,
+    user_email: str
+):
+    """
+    Save session to Redis and Firestore in background
+    Failures here don't affect user response - just log them
+    """
+    try:
+        # Save to Redis first (fast)
+        redis_saved = redis_cache.set_session(
+            session_id=session_id,
+            user_id=user_id,
+            conversation_history=conversation_history,
+            metadata=metadata
+        )
+        if redis_saved:
+            logger.debug(f"Session {session_id} saved to Redis (background)")
+        
+        # Save to Firestore (persistent)
+        firestore_saved = await firestore_sessions.save_session(
+            session_id=session_id,
+            user_id=user_id,
+            conversation_history=conversation_history,
+            metadata=metadata
+        )
+        if firestore_saved:
+            logger.info(f"Session {session_id} saved to Firestore (background)")
+        else:
+            logger.warning(f"Firestore save failed for {session_id}, but Redis saved: {redis_saved}")
+            
+    except Exception as e:
+        # Log but don't raise - session save failures shouldn't affect user
+        logger.error(f"Background session save failed for {session_id}: {e}")
+
+
 @router.post("/rag-chat-v2", response_model=ChatResponse)
 async def rag_chat_v2(
     request: ChatRequest,
+    background_tasks: BackgroundTasks,
     user: dict = Depends(get_current_user)
 ):
     """
     Advanced RAG-powered chat endpoint with Firebase authentication
     
+    ROBUSTNESS FOCUS:
+    - Returns answer immediately (doesn't wait for session save)
+    - Session saving happens in background (async)
+    - Failures in session storage don't affect user response
+    - Multiple fallback layers for history retrieval
+    
     Features:
     - Firebase authentication (required)
-    - Firestore session persistence
+    - Firestore session persistence (background)
     - Multi-query retrieval for better coverage
     - Deduplication to avoid repetition
     - MMR for diverse results
@@ -243,6 +290,9 @@ async def rag_chat_v2(
     - Query expansion using conversation history
     - Multi-layer security guardrails
     """
+    import time
+    request_start = time.time()
+    
     try:
         # Extract user info
         user_id = user['uid']
@@ -255,7 +305,7 @@ async def rag_chat_v2(
         if not request.session_id:
             raise HTTPException(status_code=400, detail="session_id is required")
         
-        logger.info(f"RAG Chat v2: User {user_email} (session: {request.session_id})")
+        logger.info(f"RAG Chat v2: User {user_email} (session: {request.session_id}), question length: {len(request.question)} chars")
         
         # SECURITY: Apply guardrails to input query (lightweight mode)
         try:
@@ -285,25 +335,66 @@ async def rag_chat_v2(
                 turn_number=0
             )
         
-        # Load session from Firestore (if exists)
-        session_data = await firestore_sessions.get_session(
-            session_id=request.session_id,
-            user_id=user_id
-        )
+        # Load session with multiple fallbacks (ROBUST)
+        # Priority: Redis (fast) -> Firestore (persistent) -> Frontend (failsafe)
+        session_data = None
+        history_source = "none"
         
-        # Use stored conversation history if available, otherwise use request history
+        # 1. Try Redis cache first (fast, <1ms)
+        try:
+            session_data = redis_cache.get_session(
+                session_id=request.session_id,
+                user_id=user_id
+            )
+            if session_data:
+                history_source = "redis"
+        except Exception as e:
+            logger.warning(f"Redis load failed: {e}. Trying Firestore...")
+        
+        # 2. If Redis miss or error, try Firestore (persistent)
+        if not session_data:
+            try:
+                session_data = await firestore_sessions.get_session(
+                    session_id=request.session_id,
+                    user_id=user_id
+                )
+                if session_data:
+                    history_source = "firestore"
+                    # Cache in Redis for next time (fire and forget)
+                    try:
+                        if 'conversation_history' in session_data:
+                            redis_cache.set_session(
+                                session_id=request.session_id,
+                                user_id=user_id,
+                                conversation_history=session_data['conversation_history'],
+                                metadata=session_data.get('metadata')
+                            )
+                            logger.debug(f"Session {request.session_id} cached to Redis from Firestore")
+                    except:
+                        pass  # Don't let cache update fail the request
+            except Exception as e:
+                logger.warning(f"Firestore load failed: {e}. Using frontend history...")
+        
+        # 3. Extract history from loaded session or use request history (failsafe)
         if session_data and 'conversation_history' in session_data:
             history_dicts = session_data['conversation_history']
-            logger.info(f"Loaded {len(history_dicts)} messages from Firestore")
+            logger.info(f"Loaded {len(history_dicts)} messages from {history_source}")
         elif request.conversation_history:
             history_dicts = [
                 {"role": msg.role, "content": msg.content}
                 for msg in request.conversation_history
             ]
-            logger.info(f"Using {len(history_dicts)} messages from request")
+            history_source = "frontend"
+            logger.info(f"Using {len(history_dicts)} messages from frontend")
         else:
             history_dicts = None
+            history_source = "new_session"
             logger.info("Starting new conversation (no history)")
+        
+        # Trim history if too large (keep last 20 messages = 10 turns)
+        if history_dicts and len(history_dicts) > 20:
+            logger.warning(f"Conversation history too large ({len(history_dicts)} messages), trimming to 20")
+            history_dicts = history_dicts[-20:]
         
         # Conversational retrieval with full pipeline
         chunks, session_state = conversational_retrieve(
@@ -354,23 +445,31 @@ async def rag_chat_v2(
                 turn_number=session_state.turn_count
             )
         
-        # Save updated session to Firestore
+        # Build updated conversation history
         updated_history = history_dicts or []
         updated_history.append({"role": "user", "content": request.question})
         updated_history.append({"role": "assistant", "content": answer})
         
-        await firestore_sessions.save_session(
+        # Schedule session save in background - DON'T WAIT FOR IT
+        # This ensures user gets response immediately even if storage is slow
+        background_tasks.add_task(
+            save_session_async,
             session_id=request.session_id,
             user_id=user_id,
             conversation_history=updated_history,
             metadata={
                 "top_k": request.top_k,
                 "chunks_retrieved": len(chunks),
-                "user_email": user_email
-            }
+                "user_email": user_email,
+                "turn_number": session_state.turn_count
+            },
+            user_email=user_email
         )
-        logger.info(f"Session {request.session_id} saved to Firestore")
         
+        request_duration = time.time() - request_start
+        logger.info(f"Request completed in {request_duration:.2f}s. Session save scheduled in background.")
+        
+        # Return response immediately without waiting for session save
         return ChatResponse(
             answer=answer,
             citations=citations,
@@ -382,6 +481,8 @@ async def rag_chat_v2(
     except HTTPException:
         raise
     except Exception as e:
+        request_duration = time.time() - request_start
+        logger.error(f"Error processing request after {request_duration:.2f}s: {str(e)}")
         raise HTTPException(
             status_code=500,
             detail=f"Error processing request: {str(e)}"
@@ -390,7 +491,9 @@ async def rag_chat_v2(
 
 @router.get("/rag-chat-v2/health")
 async def health_check():
-    """Health check endpoint"""
+    """Health check endpoint with Redis status"""
+    redis_stats = redis_cache.get_stats()
+    
     return {
         "status": "healthy",
         "service": "rag-chat-v2",
@@ -399,6 +502,8 @@ async def health_check():
             "deduplication",
             "mmr-diversity",
             "session-management",
-            "query-expansion"
-        ]
+            "query-expansion",
+            "redis-cache"
+        ],
+        "redis": redis_stats
     }

@@ -230,7 +230,8 @@ def retrieve_with_deduplication(
     results = index.query(
         vector=query_embedding,
         top_k=retrieve_k,
-        include_metadata=True
+        include_metadata=True,
+        include_values=True  # Include vectors for MMR without re-embedding
     )
     
     # Filter out shown chunks
@@ -241,7 +242,8 @@ def retrieve_with_deduplication(
                 'id': match['id'],
                 'score': match['score'],
                 'metadata': match.get('metadata', {}),
-                'embedding': query_embedding  # Store for MMR later
+                'values': match.get('values', []),  # Store Pinecone vector for MMR
+                'query_embedding': query_embedding  # Store query embedding for MMR
             })
         
         if len(new_chunks) >= top_k:
@@ -306,30 +308,23 @@ def maximal_marginal_relevance(
     lambda_param: float = 0.6
 ) -> List[Dict]:
     """
-    Select diverse chunks using MMR
+    Select diverse chunks using MMR - Optimized version using Pinecone vectors
     
     MMR = λ × sim(q, d) - (1-λ) × max[sim(d, d')]
     """
     if len(chunks) <= k:
         return chunks
     
-    # Get embeddings for all chunks
+    # Use embeddings from Pinecone (already included in chunk)
     chunk_embeddings = []
     for chunk in chunks:
-        # Embed chunk text
-        text = chunk['metadata'].get('text', '')
-        if text:
-            try:
-                emb_response = get_openai_client().embeddings.create(
-                    model="text-embedding-3-large",
-                    input=text[:8000]  # Limit text length
-                )
-                chunk_embeddings.append(emb_response.data[0].embedding)
-            except:
-                # Fallback: use query embedding
-                chunk_embeddings.append(query_embedding)
+        # Use Pinecone vector if available, otherwise use query embedding as fallback
+        if 'values' in chunk and chunk['values']:
+            chunk_embeddings.append(chunk['values'])
         else:
+            # Fallback to query embedding (won't provide diversity but prevents errors)
             chunk_embeddings.append(query_embedding)
+            logger.warning(f"Missing vector for chunk {chunk.get('id')}, using query embedding")
     
     selected_indices = []
     remaining_indices = list(range(len(chunks)))
