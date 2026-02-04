@@ -116,13 +116,26 @@ function App() {
         }
       } catch (error) {
         console.error('Redirect auth error:', error)
-        if (error.message.includes('storage') || error.message.includes('web-storage-unsupported')) {
+        
+        // Prevent redirect loops - only auto-switch to email if it's an auth error
+        if (error.code === 'auth/popup-closed-by-user' || 
+            error.code === 'auth/cancelled-popup-request' ||
+            error.code === 'auth/user-cancelled') {
+          // User cancelled - just show the sign-in screen again
+          setLoading(false)
+          return
+        }
+        
+        if (error.message.includes('storage') || 
+            error.message.includes('web-storage-unsupported') ||
+            error.code === 'auth/web-storage-unsupported') {
           // Storage issue - auto-switch to email auth
           console.log('Storage error detected - switching to email auth')
           setUseEmailAuth(true)
-          setAuthError('⚠️ Google sign-in requires browser storage. Please use email sign-in instead.')
+          setAuthError('⚠️ Google sign-in requires browser storage. Please use email sign-in.')
         } else {
-          setAuthError(error.message || 'Authentication failed. Please try again.')
+          // Other errors - show error but don't auto-switch
+          setAuthError(`Sign-in error: ${error.message}`)
         }
       }
 
@@ -152,8 +165,17 @@ function App() {
       console.error('Sign in error:', error)
       setLoading(false)
       
-      // Google failed - automatically move to email sign-in
+      // Only auto-switch to email for specific errors, not cancellations
+      if (error.code === 'auth/popup-closed-by-user' || 
+          error.code === 'auth/cancelled-popup-request' ||
+          error.code === 'auth/user-cancelled') {
+        // User cancelled - just reset, don't switch to email
+        return
+      }
+      
+      // For actual failures, automatically move to email sign-in
       setUseEmailAuth(true)
+      setAuthError('Let\'s try email sign-in instead.')
     }
   }
 
