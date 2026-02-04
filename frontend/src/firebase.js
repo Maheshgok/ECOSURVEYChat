@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app'
-import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth'
+import { getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut } from 'firebase/auth'
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -14,17 +14,42 @@ const app = initializeApp(firebaseConfig)
 export const auth = getAuth(app)
 
 const provider = new GoogleAuthProvider()
+// Force account selection every time to avoid stale auth states
+provider.setCustomParameters({
+  prompt: 'select_account'
+})
 
 export const signInWithGoogle = async () => {
   try {
-    const result = await signInWithPopup(auth, provider)
-    
-    // That's it! Firebase handles everything
-    // No backend call needed - we'll pass the token directly to API calls
-    
-    return result.user
+    // Use signInWithRedirect instead of popup - works on corporate/mobile devices
+    // User will be redirected to Google, then back to the app
+    await signInWithRedirect(auth, provider)
+    // Note: This function won't return - page redirects to Google
   } catch (error) {
-    console.error('Error signing in:', error)
+    console.error('Error initiating sign in:', error)
+    throw error
+  }
+}
+
+// Call this on app load to complete redirect-based sign in
+export const handleRedirectResult = async () => {
+  try {
+    const result = await getRedirectResult(auth)
+    if (result) {
+      console.log('Sign in successful:', result.user.email)
+      return result.user
+    }
+    return null
+  } catch (error) {
+    console.error('Error handling redirect:', error)
+    // Provide user-friendly error messages
+    if (error.code === 'auth/popup-blocked') {
+      throw new Error('Popup blocked. Please allow popups for this site.')
+    } else if (error.code === 'auth/web-storage-unsupported') {
+      throw new Error('Browser storage disabled. Please enable cookies and try again.')
+    } else if (error.code === 'auth/cancelled-popup-request') {
+      throw new Error('Sign in cancelled. Please try again.')
+    }
     throw error
   }
 }

@@ -22,6 +22,7 @@ function Chat({ user }) {
 
     const userMessage = { role: 'user', content: input }
     setMessages(prev => [...prev, userMessage])
+    const currentInput = input
     setInput('')
     setLoading(true)
 
@@ -29,6 +30,13 @@ function Chat({ user }) {
       const token = await getAuthToken()
       // Call backend directly to avoid Netlify's 26-second proxy timeout
       const backendUrl = import.meta.env.VITE_BACKEND_URL || 'https://ecosurvey-backend-v2-812016027146.asia-south1.run.app'
+      
+      // Build conversation history from messages (exclude current user message)
+      const conversationHistory = messages.map(msg => ({
+        role: msg.role,
+        content: msg.content
+      }))
+
       const response = await fetch(`${backendUrl}/api/rag-chat-v2`, {
         method: 'POST',
         headers: {
@@ -36,14 +44,17 @@ function Chat({ user }) {
           'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
-          question: input,
+          question: currentInput,
           session_id: `session-${user.uid}`,
+          conversation_history: conversationHistory,
           top_k: 5
         })
       })
 
       if (!response.ok) {
-        throw new Error('Failed to get response')
+        const errorData = await response.json().catch(() => ({}))
+        console.error('Backend error:', response.status, errorData)
+        throw new Error(errorData.detail || `Server error: ${response.status}`)
       }
 
       const data = await response.json()
@@ -62,9 +73,26 @@ function Chat({ user }) {
       setMessages(prev => [...prev, assistantMessage])
     } catch (error) {
       console.error('Error sending message:', error)
+      
+      // Provide specific error messages with details for debugging
+      let errorMessage = '❌ Sorry, there was an error processing your request.'
+      
+      if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+        errorMessage = '🌐 Network error. Please check your internet connection and try again.'
+      } else if (error.message.includes('401') || error.message.includes('Unauthorized')) {
+        errorMessage = '🔒 Authentication error. Please try logging out and back in.'
+      } else if (error.message.includes('404')) {
+        errorMessage = '📭 No relevant information found for your question. Try rephrasing or asking something more general.'
+      } else if (error.message.includes('500')) {
+        errorMessage = '⚠️ Server error. Our team has been notified. Please try again in a moment.'
+      } else if (error.message) {
+        // Show actual error message for better debugging
+        errorMessage = `❌ ${error.message}`
+      }
+      
       setMessages(prev => [...prev, {
         role: 'assistant',
-        content: '❌ Sorry, there was an error processing your request.',
+        content: errorMessage,
         error: true
       }])
     } finally {

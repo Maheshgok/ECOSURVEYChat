@@ -1,0 +1,1323 @@
+[
+  {
+    "textPayload": "INFO:     Waiting for application startup.",
+    "insertId": "698197030008d7fe4d41b13a",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "service_name": "ecosurvey-backend-v2",
+        "configuration_name": "ecosurvey-backend-v2",
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "location": "asia-south1",
+        "project_id": "watch-mail-trial"
+      }
+    },
+    "timestamp": "2026-02-03T06:34:43.579582Z",
+    "labels": {
+      "instanceId": "005eb6974c79c1bdd8fe3375ec4dfac2f824477fdaded251dec4c4500e9dee5017ff75bf7e12910bc59e8ba2361f3200247156a4b6821de942c4f2920739a4f217d3bc21be1bb3fe9e967b69f57d30f3faac794f"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T06:34:43.582873417Z"
+  },
+  {
+    "textPayload": "INFO:app.main:Starting Economic Survey Practitioner Chat v1.2 (Pinecone-only mode)",
+    "insertId": "698197030008db10a48b80dd",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "project_id": "watch-mail-trial",
+        "service_name": "ecosurvey-backend-v2",
+        "location": "asia-south1",
+        "configuration_name": "ecosurvey-backend-v2"
+      }
+    },
+    "timestamp": "2026-02-03T06:34:43.580368Z",
+    "labels": {
+      "instanceId": "005eb6974c79c1bdd8fe3375ec4dfac2f824477fdaded251dec4c4500e9dee5017ff75bf7e12910bc59e8ba2361f3200247156a4b6821de942c4f2920739a4f217d3bc21be1bb3fe9e967b69f57d30f3faac794f"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T06:34:43.917558540Z"
+  },
+  {
+    "textPayload": "INFO:app.main:App ready and running",
+    "insertId": "698197030008db46160fe82e",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "location": "asia-south1",
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "configuration_name": "ecosurvey-backend-v2",
+        "service_name": "ecosurvey-backend-v2",
+        "project_id": "watch-mail-trial"
+      }
+    },
+    "timestamp": "2026-02-03T06:34:43.580422Z",
+    "labels": {
+      "instanceId": "005eb6974c79c1bdd8fe3375ec4dfac2f824477fdaded251dec4c4500e9dee5017ff75bf7e12910bc59e8ba2361f3200247156a4b6821de942c4f2920739a4f217d3bc21be1bb3fe9e967b69f57d30f3faac794f"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T06:34:43.917558540Z"
+  },
+  {
+    "textPayload": "INFO:     Application startup complete.",
+    "insertId": "698197030008dbf43afb3d2f",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "service_name": "ecosurvey-backend-v2",
+        "project_id": "watch-mail-trial",
+        "configuration_name": "ecosurvey-backend-v2",
+        "location": "asia-south1",
+        "revision_name": "ecosurvey-backend-v2-00011-z72"
+      }
+    },
+    "timestamp": "2026-02-03T06:34:43.580596Z",
+    "labels": {
+      "instanceId": "005eb6974c79c1bdd8fe3375ec4dfac2f824477fdaded251dec4c4500e9dee5017ff75bf7e12910bc59e8ba2361f3200247156a4b6821de942c4f2920739a4f217d3bc21be1bb3fe9e967b69f57d30f3faac794f"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T06:34:43.917558540Z"
+  },
+  {
+    "textPayload": "INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)",
+    "insertId": "698197030008e65ff1d5e204",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "configuration_name": "ecosurvey-backend-v2",
+        "location": "asia-south1",
+        "service_name": "ecosurvey-backend-v2",
+        "project_id": "watch-mail-trial"
+      }
+    },
+    "timestamp": "2026-02-03T06:34:43.583263Z",
+    "labels": {
+      "instanceId": "005eb6974c79c1bdd8fe3375ec4dfac2f824477fdaded251dec4c4500e9dee5017ff75bf7e12910bc59e8ba2361f3200247156a4b6821de942c4f2920739a4f217d3bc21be1bb3fe9e967b69f57d30f3faac794f"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T06:34:43.917558540Z"
+  },
+  {
+    "textPayload": "Default STARTUP TCP probe succeeded after 1 attempt for container \"ecosurvey-backend-v2-1\" on port 8080.",
+    "insertId": "698197030008e901f5bb8c2c",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "location": "asia-south1",
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "service_name": "ecosurvey-backend-v2",
+        "configuration_name": "ecosurvey-backend-v2",
+        "project_id": "watch-mail-trial"
+      }
+    },
+    "timestamp": "2026-02-03T06:34:43.583937Z",
+    "severity": "INFO",
+    "labels": {
+      "instanceId": "005eb6974c79c1bdd8fe3375ec4dfac2f824477fdaded251dec4c4500e9dee5017ff75bf7e12910bc59e8ba2361f3200247156a4b6821de942c4f2920739a4f217d3bc21be1bb3fe9e967b69f57d30f3faac794f"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fvarlog%2Fsystem",
+    "receiveTimestamp": "2026-02-03T06:34:43.614918063Z"
+  },
+  {
+    "protoPayload": {
+      "@type": "type.googleapis.com/google.cloud.audit.AuditLog",
+      "status": {
+        "message": "Ready condition status changed to True for Revision ecosurvey-backend-v2-00011-z72 with message: Deploying revision succeeded in 18.55s."
+      },
+      "serviceName": "run.googleapis.com",
+      "methodName": "/Services.ReplaceService",
+      "resourceName": "namespaces/watch-mail-trial/revisions/ecosurvey-backend-v2-00011-z72",
+      "response": {
+        "metadata": {
+          "name": "ecosurvey-backend-v2-00011-z72",
+          "namespace": "812016027146",
+          "selfLink": "/apis/serving.knative.dev/v1/namespaces/812016027146/revisions/ecosurvey-backend-v2-00011-z72",
+          "uid": "d6880cd9-dba5-4127-b5fc-a4e54927f705",
+          "resourceVersion": "AAZJ5aKLfoI",
+          "generation": 1,
+          "creationTimestamp": "2026-02-03T06:34:25.106107Z",
+          "labels": {
+            "client.knative.dev/nonce": "jdhsnuniyn",
+            "serving.knative.dev/configuration": "ecosurvey-backend-v2",
+            "serving.knative.dev/configurationGeneration": "11",
+            "serving.knative.dev/service": "ecosurvey-backend-v2",
+            "serving.knative.dev/serviceUid": "4a45efde-f540-442b-bf72-5aea0d9bff45",
+            "serving.knative.dev/route": "ecosurvey-backend-v2",
+            "run.googleapis.com/satisfiesPzs": "true",
+            "cloud.googleapis.com/location": "asia-south1",
+            "run.googleapis.com/startupProbeType": "Default"
+          },
+          "annotations": {
+            "autoscaling.knative.dev/maxScale": "10",
+            "run.googleapis.com/client-name": "gcloud",
+            "run.googleapis.com/client-version": "544.0.0",
+            "serving.knative.dev/creator": "mahesh@edgechurn.ai",
+            "run.googleapis.com/build-source-location": "{\"ecosurvey-backend-v2-1\":\"gs://run-sources-watch-mail-trial-asia-south1/services/ecosurvey-backend-v2/1770100351.10623-dce23dd17132411e8af12309db94f90e.zip#1770100351963008\"}",
+            "run.googleapis.com/operation-id": "f6ea873f-2be0-4bde-bb5f-2061336ac979",
+            "run.googleapis.com/startup-cpu-boost": "true"
+          },
+          "ownerReferences": [
+            {
+              "kind": "Configuration",
+              "name": "ecosurvey-backend-v2",
+              "uid": "8ecca12d-d265-41f3-bc67-e621df0312ce",
+              "apiVersion": "serving.knative.dev/v1",
+              "controller": true,
+              "blockOwnerDeletion": true
+            }
+          ]
+        },
+        "apiVersion": "serving.knative.dev/v1",
+        "kind": "Revision",
+        "spec": {
+          "containerConcurrency": 80,
+          "timeoutSeconds": 600,
+          "serviceAccountName": "812016027146-compute@developer.gserviceaccount.com",
+          "containers": [
+            {
+              "name": "ecosurvey-backend-v2-1",
+              "image": "asia-south1-docker.pkg.dev/watch-mail-trial/cloud-run-source-deploy/ecosurvey-backend-v2@sha256:ce78de82eed626aa97ae052404fb97866a6bc4edc31ed70809a200eed32b3d73",
+              "ports": [
+                {
+                  "name": "http1",
+                  "containerPort": 8080
+                }
+              ],
+              "env": [
+                {
+                  "name": "PINECONE_API_KEY",
+                  "value": "pcsk_2tUpBy_zpp2wZUvqVtnEzSRCY9YM6iuSgcLSFBfc9Z2G4FCgJmRSGMkzsgdHRepatVKD2"
+                },
+                {
+                  "name": "OPENAI_API_KEY",
+                  "value": "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"
+                },
+                {
+                  "name": "FIREBASE_PROJECT_ID",
+                  "value": "watch-mail-trial"
+                }
+              ],
+              "resources": {
+                "limits": {
+                  "cpu": "2",
+                  "memory": "4Gi"
+                }
+              },
+              "startupProbe": {
+                "timeoutSeconds": 240,
+                "periodSeconds": 240,
+                "failureThreshold": 1,
+                "tcpSocket": {
+                  "port": 8080
+                }
+              }
+            }
+          ]
+        },
+        "status": {
+          "observedGeneration": 1,
+          "conditions": [
+            {
+              "type": "Ready",
+              "status": "True",
+              "message": "Deploying revision succeeded in 18.55s.",
+              "lastTransitionTime": "2026-02-03T06:34:43.653250Z"
+            },
+            {
+              "type": "ContainerHealthy",
+              "status": "True",
+              "message": "Containers became healthy in 8.14s.",
+              "lastTransitionTime": "2026-02-03T06:34:43.593502Z"
+            },
+            {
+              "type": "ContainerReady",
+              "status": "True",
+              "message": "Container image import completed in 5.97s.",
+              "lastTransitionTime": "2026-02-03T06:34:31.675679Z"
+            },
+            {
+              "type": "ResourcesAvailable",
+              "status": "True",
+              "message": "Provisioning imported containers completed in 3.45s. Checking container health. This will wait for up to 4m for the configured startup probe, including an initial delay of 0s.",
+              "lastTransitionTime": "2026-02-03T06:34:35.128517Z"
+            }
+          ],
+          "logUrl": "https://console.cloud.google.com/logs/viewer?project=watch-mail-trial&resource=cloud_run_revision/service_name/ecosurvey-backend-v2/revision_name/ecosurvey-backend-v2-00011-z72&advancedFilter=resource.type%3D%22cloud_run_revision%22%0Aresource.labels.service_name%3D%22ecosurvey-backend-v2%22%0Aresource.labels.revision_name%3D%22ecosurvey-backend-v2-00011-z72%22",
+          "imageDigest": "asia-south1-docker.pkg.dev/watch-mail-trial/cloud-run-source-deploy/ecosurvey-backend-v2@sha256:ce78de82eed626aa97ae052404fb97866a6bc4edc31ed70809a200eed32b3d73",
+          "containerStatuses": [
+            {
+              "name": "ecosurvey-backend-v2-1",
+              "imageDigest": "asia-south1-docker.pkg.dev/watch-mail-trial/cloud-run-source-deploy/ecosurvey-backend-v2@sha256:ce78de82eed626aa97ae052404fb97866a6bc4edc31ed70809a200eed32b3d73"
+            }
+          ]
+        },
+        "@type": "type.googleapis.com/google.cloud.run.v1.Revision"
+      }
+    },
+    "insertId": "yopo5cd2i88",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "project_id": "watch-mail-trial",
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "configuration_name": "ecosurvey-backend-v2",
+        "location": "asia-south1",
+        "service_name": "ecosurvey-backend-v2"
+      }
+    },
+    "timestamp": "2026-02-03T06:34:43.669216Z",
+    "severity": "INFO",
+    "logName": "projects/watch-mail-trial/logs/cloudaudit.googleapis.com%2Fsystem_event",
+    "receiveTimestamp": "2026-02-03T06:34:43.939676604Z"
+  },
+  {
+    "protoPayload": {
+      "@type": "type.googleapis.com/google.cloud.audit.AuditLog",
+      "status": {
+        "message": "Ready condition status changed to True for Service ecosurvey-backend-v2."
+      },
+      "serviceName": "run.googleapis.com",
+      "methodName": "/Services.ReplaceService",
+      "resourceName": "namespaces/watch-mail-trial/services/ecosurvey-backend-v2",
+      "response": {
+        "metadata": {
+          "name": "ecosurvey-backend-v2",
+          "namespace": "812016027146",
+          "selfLink": "/apis/serving.knative.dev/v1/namespaces/812016027146/services/ecosurvey-backend-v2",
+          "uid": "4a45efde-f540-442b-bf72-5aea0d9bff45",
+          "resourceVersion": "AAZJ5aKxhS0",
+          "generation": 11,
+          "creationTimestamp": "2026-02-02T12:52:49.706218Z",
+          "labels": {
+            "run.googleapis.com/satisfiesPzs": "true",
+            "cloud.googleapis.com/location": "asia-south1"
+          },
+          "annotations": {
+            "serving.knative.dev/creator": "mahesh@edgechurn.ai",
+            "serving.knative.dev/lastModifier": "mahesh@edgechurn.ai",
+            "run.googleapis.com/build-enable-automatic-updates": "false",
+            "run.googleapis.com/build-id": "9ed2a1b4-3bd9-47a6-8ebe-eabea82b2b2a",
+            "run.googleapis.com/build-image-uri": "asia-south1-docker.pkg.dev/watch-mail-trial/cloud-run-source-deploy/ecosurvey-backend-v2",
+            "run.googleapis.com/build-name": "projects/812016027146/locations/asia-south1/builds/9ed2a1b4-3bd9-47a6-8ebe-eabea82b2b2a",
+            "run.googleapis.com/build-source-location": "gs://run-sources-watch-mail-trial-asia-south1/services/ecosurvey-backend-v2/1770100351.10623-dce23dd17132411e8af12309db94f90e.zip#1770100351963008",
+            "run.googleapis.com/client-name": "gcloud",
+            "run.googleapis.com/client-version": "544.0.0",
+            "run.googleapis.com/operation-id": "f6ea873f-2be0-4bde-bb5f-2061336ac979",
+            "run.googleapis.com/ingress": "all",
+            "run.googleapis.com/ingress-status": "all",
+            "run.googleapis.com/maxScale": "10",
+            "run.googleapis.com/urls": "[\"https://ecosurvey-backend-v2-812016027146.asia-south1.run.app\",\"https://ecosurvey-backend-v2-bhcetby62q-el.a.run.app\"]"
+          }
+        },
+        "apiVersion": "serving.knative.dev/v1",
+        "kind": "Service",
+        "spec": {
+          "template": {
+            "metadata": {
+              "labels": {
+                "client.knative.dev/nonce": "jdhsnuniyn",
+                "run.googleapis.com/startupProbeType": "Default"
+              },
+              "annotations": {
+                "autoscaling.knative.dev/maxScale": "10",
+                "run.googleapis.com/client-name": "gcloud",
+                "run.googleapis.com/client-version": "544.0.0",
+                "run.googleapis.com/startup-cpu-boost": "true"
+              }
+            },
+            "spec": {
+              "containerConcurrency": 80,
+              "timeoutSeconds": 600,
+              "serviceAccountName": "812016027146-compute@developer.gserviceaccount.com",
+              "containers": [
+                {
+                  "image": "asia-south1-docker.pkg.dev/watch-mail-trial/cloud-run-source-deploy/ecosurvey-backend-v2@sha256:ce78de82eed626aa97ae052404fb97866a6bc4edc31ed70809a200eed32b3d73",
+                  "ports": [
+                    {
+                      "name": "http1",
+                      "containerPort": 8080
+                    }
+                  ],
+                  "env": [
+                    {
+                      "name": "PINECONE_API_KEY",
+                      "value": "pcsk_2tUpBy_zpp2wZUvqVtnEzSRCY9YM6iuSgcLSFBfc9Z2G4FCgJmRSGMkzsgdHRepatVKD2"
+                    },
+                    {
+                      "name": "OPENAI_API_KEY",
+                      "value": "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"
+                    },
+                    {
+                      "name": "FIREBASE_PROJECT_ID",
+                      "value": "watch-mail-trial"
+                    }
+                  ],
+                  "resources": {
+                    "limits": {
+                      "cpu": "2",
+                      "memory": "4Gi"
+                    }
+                  },
+                  "startupProbe": {
+                    "timeoutSeconds": 240,
+                    "periodSeconds": 240,
+                    "failureThreshold": 1,
+                    "tcpSocket": {
+                      "port": 8080
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "traffic": [
+            {
+              "percent": 100,
+              "latestRevision": true
+            }
+          ]
+        },
+        "status": {
+          "observedGeneration": 11,
+          "conditions": [
+            {
+              "type": "Ready",
+              "status": "True",
+              "lastTransitionTime": "2026-02-03T06:34:46.145325Z"
+            },
+            {
+              "type": "ConfigurationsReady",
+              "status": "True",
+              "lastTransitionTime": "2026-02-03T06:34:43.698706Z"
+            },
+            {
+              "type": "RoutesReady",
+              "status": "True",
+              "lastTransitionTime": "2026-02-03T06:34:46.098601Z"
+            }
+          ],
+          "latestReadyRevisionName": "ecosurvey-backend-v2-00011-z72",
+          "latestCreatedRevisionName": "ecosurvey-backend-v2-00011-z72",
+          "traffic": [
+            {
+              "revisionName": "ecosurvey-backend-v2-00011-z72",
+              "percent": 100,
+              "latestRevision": true
+            }
+          ],
+          "url": "https://ecosurvey-backend-v2-bhcetby62q-el.a.run.app",
+          "address": {
+            "url": "https://ecosurvey-backend-v2-bhcetby62q-el.a.run.app"
+          }
+        },
+        "@type": "type.googleapis.com/google.cloud.run.v1.Service"
+      }
+    },
+    "insertId": "mii0jed3pq4",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "location": "asia-south1",
+        "service_name": "ecosurvey-backend-v2",
+        "revision_name": "",
+        "configuration_name": "",
+        "project_id": "watch-mail-trial"
+      }
+    },
+    "timestamp": "2026-02-03T06:34:46.165605Z",
+    "severity": "INFO",
+    "logName": "projects/watch-mail-trial/logs/cloudaudit.googleapis.com%2Fsystem_event",
+    "receiveTimestamp": "2026-02-03T06:34:46.934783634Z"
+  },
+  {
+    "insertId": "6981a2ef0000b1c7d2423d3b",
+    "httpRequest": {
+      "requestMethod": "POST",
+      "requestUrl": "https://ecosurvey-backend-v2-812016027146.asia-south1.run.app/api/rag-chat-v2",
+      "requestSize": "547",
+      "status": 401,
+      "responseSize": "174",
+      "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-IN) WindowsPowerShell/5.1.26100.7670",
+      "remoteIp": "103.167.184.228",
+      "serverIp": "34.143.76.2",
+      "latency": "7.367575988s",
+      "protocol": "HTTP/1.1"
+    },
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "location": "asia-south1",
+        "configuration_name": "ecosurvey-backend-v2",
+        "service_name": "ecosurvey-backend-v2",
+        "project_id": "watch-mail-trial",
+        "revision_name": "ecosurvey-backend-v2-00011-z72"
+      }
+    },
+    "timestamp": "2026-02-03T07:25:27.194983Z",
+    "severity": "WARNING",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Frequests",
+    "trace": "projects/watch-mail-trial/traces/e5013adecd3ef348a03b73ffef1fd6cd",
+    "receiveTimestamp": "2026-02-03T07:25:35.051404594Z",
+    "spanId": "eac031d65a260acc",
+    "traceSampled": true
+  },
+  {
+    "textPayload": "Starting new instance. Reason: AUTOSCALING - Instance started due to configured scaling factors (e.g. CPU utilization, request throughput, etc.) or no existing capacity for current traffic.",
+    "insertId": "6981a2e70003379f6a7ca3e6",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "service_name": "ecosurvey-backend-v2",
+        "location": "asia-south1",
+        "project_id": "watch-mail-trial",
+        "configuration_name": "ecosurvey-backend-v2",
+        "revision_name": "ecosurvey-backend-v2-00011-z72"
+      }
+    },
+    "timestamp": "2026-02-03T07:25:27.210847Z",
+    "severity": "INFO",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198",
+      "scaling_reason": "AUTOSCALING"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fvarlog%2Fsystem",
+    "receiveTimestamp": "2026-02-03T07:25:27.215143042Z"
+  },
+  {
+    "textPayload": "INFO:     Started server process [2]",
+    "insertId": "6981a2ee000ed8994e215428",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "configuration_name": "ecosurvey-backend-v2",
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "service_name": "ecosurvey-backend-v2",
+        "project_id": "watch-mail-trial",
+        "location": "asia-south1"
+      }
+    },
+    "timestamp": "2026-02-03T07:25:34.972953Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T07:25:34.979870848Z"
+  },
+  {
+    "textPayload": "INFO:     Waiting for application startup.",
+    "insertId": "6981a2ee000ed8c89362c05a",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "service_name": "ecosurvey-backend-v2",
+        "project_id": "watch-mail-trial",
+        "configuration_name": "ecosurvey-backend-v2",
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "location": "asia-south1"
+      }
+    },
+    "timestamp": "2026-02-03T07:25:34.973Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T07:25:34.979870848Z"
+  },
+  {
+    "textPayload": "INFO:app.main:Starting Economic Survey Practitioner Chat v1.2 (Pinecone-only mode)",
+    "insertId": "6981a2ee000edb875d2163f2",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "configuration_name": "ecosurvey-backend-v2",
+        "project_id": "watch-mail-trial",
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "service_name": "ecosurvey-backend-v2",
+        "location": "asia-south1"
+      }
+    },
+    "timestamp": "2026-02-03T07:25:34.973703Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T07:25:35.309800073Z"
+  },
+  {
+    "textPayload": "INFO:app.main:App ready and running",
+    "insertId": "6981a2ee000edbb8da6cb04c",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "configuration_name": "ecosurvey-backend-v2",
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "location": "asia-south1",
+        "project_id": "watch-mail-trial",
+        "service_name": "ecosurvey-backend-v2"
+      }
+    },
+    "timestamp": "2026-02-03T07:25:34.973752Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T07:25:35.309800073Z"
+  },
+  {
+    "textPayload": "INFO:     Application startup complete.",
+    "insertId": "6981a2ee000edc42d1088a10",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "service_name": "ecosurvey-backend-v2",
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "location": "asia-south1",
+        "configuration_name": "ecosurvey-backend-v2",
+        "project_id": "watch-mail-trial"
+      }
+    },
+    "timestamp": "2026-02-03T07:25:34.973890Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T07:25:35.309800073Z"
+  },
+  {
+    "textPayload": "INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)",
+    "insertId": "6981a2ee000ee5c0ce98c951",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "service_name": "ecosurvey-backend-v2",
+        "project_id": "watch-mail-trial",
+        "location": "asia-south1",
+        "configuration_name": "ecosurvey-backend-v2",
+        "revision_name": "ecosurvey-backend-v2-00011-z72"
+      }
+    },
+    "timestamp": "2026-02-03T07:25:34.976320Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T07:25:35.309800073Z"
+  },
+  {
+    "textPayload": "Default STARTUP TCP probe succeeded after 1 attempt for container \"ecosurvey-backend-v2-1\" on port 8080.",
+    "insertId": "6981a2ee000ee777cbbc5215",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "project_id": "watch-mail-trial",
+        "configuration_name": "ecosurvey-backend-v2",
+        "service_name": "ecosurvey-backend-v2",
+        "location": "asia-south1"
+      }
+    },
+    "timestamp": "2026-02-03T07:25:34.976759Z",
+    "severity": "INFO",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fvarlog%2Fsystem",
+    "receiveTimestamp": "2026-02-03T07:25:35.210230191Z"
+  },
+  {
+    "textPayload": "INFO:     169.254.169.126:13760 - \"POST /api/rag-chat-v2 HTTP/1.1\" 401 Unauthorized",
+    "insertId": "6981a2ef000094452ae6a57d",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "service_name": "ecosurvey-backend-v2",
+        "location": "asia-south1",
+        "project_id": "watch-mail-trial",
+        "configuration_name": "ecosurvey-backend-v2",
+        "revision_name": "ecosurvey-backend-v2-00011-z72"
+      }
+    },
+    "timestamp": "2026-02-03T07:25:35.037957Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-02-03T07:25:35.043806307Z"
+  },
+  {
+    "insertId": "6981a31e000d25e7e18b8faf",
+    "httpRequest": {
+      "requestMethod": "POST",
+      "requestUrl": "https://ecosurvey-backend-v2-812016027146.asia-south1.run.app/api/rag-chat-v2",
+      "requestSize": "3038",
+      "status": 200,
+      "responseSize": "4095",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36",
+      "remoteIp": "18.142.196.142",
+      "referer": "https://ecosurvey2026.netlify.app/",
+      "serverIp": "34.143.76.2",
+      "latency": "28.344081473s",
+      "protocol": "HTTP/1.1"
+    },
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "location": "asia-south1",
+        "project_id": "watch-mail-trial",
+        "configuration_name": "ecosurvey-backend-v2",
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "service_name": "ecosurvey-backend-v2"
+      }
+    },
+    "timestamp": "2026-02-03T07:25:54.516176Z",
+    "severity": "INFO",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Frequests",
+    "trace": "projects/watch-mail-trial/traces/019c2264be9ddc14d1f61ce6bcc9a33b",
+    "receiveTimestamp": "2026-02-03T07:26:22.867749051Z",
+    "spanId": "e14581844529a52a",
+    "traceSampled": true
+  },
+  {
+    "textPayload": "INFO:app.core.firebase_middleware:Authenticated user: maheshgok@gmail.com (uid: gYJ1KMiMyGcWXzv61vINKruX0ix1)",
+    "insertId": "6981a3020008e2e8997452b8",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "location": "asia-south1",
+        "service_name": "ecosurvey-backend-v2",
+        "configuration_name": "ecosurvey-backend-v2",
+        "project_id": "watch-mail-trial",
+        "revision_name": "ecosurvey-backend-v2-00011-z72"
+      }
+    },
+    "timestamp": "2026-02-03T07:25:54.582376Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T07:25:54.587016736Z"
+  },
+  {
+    "textPayload": "INFO:app.api.rag_chat_v2:RAG Chat v2: User maheshgok@gmail.com (session: session-gYJ1KMiMyGcWXzv61vINKruX0ix1)",
+    "insertId": "6981a3020008e3a935f8e345",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "service_name": "ecosurvey-backend-v2",
+        "configuration_name": "ecosurvey-backend-v2",
+        "project_id": "watch-mail-trial",
+        "location": "asia-south1"
+      }
+    },
+    "timestamp": "2026-02-03T07:25:54.582569Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T07:25:54.921132612Z"
+  },
+  {
+    "textPayload": "INFO:app.services.firestore_sessions:Attempting Application Default Credentials (ADC)...",
+    "insertId": "6981a3020008f0fd3a7d779c",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "location": "asia-south1",
+        "configuration_name": "ecosurvey-backend-v2",
+        "project_id": "watch-mail-trial",
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "service_name": "ecosurvey-backend-v2"
+      }
+    },
+    "timestamp": "2026-02-03T07:25:54.585981Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T07:25:54.921132612Z"
+  },
+  {
+    "textPayload": "INFO:app.services.firestore_sessions:✅ Firebase Admin initialized with Application Default Credentials (NO KEYS!)",
+    "insertId": "6981a3020008f1938ccd3b40",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "project_id": "watch-mail-trial",
+        "service_name": "ecosurvey-backend-v2",
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "configuration_name": "ecosurvey-backend-v2",
+        "location": "asia-south1"
+      }
+    },
+    "timestamp": "2026-02-03T07:25:54.586131Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T07:25:54.921132612Z"
+  },
+  {
+    "textPayload": "INFO:app.services.firestore_sessions:🔥 Firestore session service initialized successfully (using ADC)",
+    "insertId": "6981a3020009466094e0af1c",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "location": "asia-south1",
+        "service_name": "ecosurvey-backend-v2",
+        "project_id": "watch-mail-trial",
+        "configuration_name": "ecosurvey-backend-v2"
+      }
+    },
+    "timestamp": "2026-02-03T07:25:54.607840Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T07:25:54.921132612Z"
+  },
+  {
+    "textPayload": "INFO:app.api.rag_chat_v2:Starting new conversation (no history)",
+    "insertId": "6981a304000317f4630e7c47",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "configuration_name": "ecosurvey-backend-v2",
+        "project_id": "watch-mail-trial",
+        "service_name": "ecosurvey-backend-v2",
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "location": "asia-south1"
+      }
+    },
+    "timestamp": "2026-02-03T07:25:56.202740Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T07:25:56.250133445Z"
+  },
+  {
+    "textPayload": "INFO:app.services.conversational_rag:Creating new session: session-gYJ1KMiMyGcWXzv61vINKruX0ix1",
+    "insertId": "6981a3040003181a4789613e",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "service_name": "ecosurvey-backend-v2",
+        "location": "asia-south1",
+        "project_id": "watch-mail-trial",
+        "configuration_name": "ecosurvey-backend-v2"
+      }
+    },
+    "timestamp": "2026-02-03T07:25:56.202778Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T07:25:56.250133445Z"
+  },
+  {
+    "textPayload": "INFO:app.services.conversational_rag:Expanded query: whats in this budget for Bosch India",
+    "insertId": "6981a3040003187729347f89",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "project_id": "watch-mail-trial",
+        "location": "asia-south1",
+        "configuration_name": "ecosurvey-backend-v2",
+        "service_name": "ecosurvey-backend-v2",
+        "revision_name": "ecosurvey-backend-v2-00011-z72"
+      }
+    },
+    "timestamp": "2026-02-03T07:25:56.202871Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T07:25:56.250133445Z"
+  },
+  {
+    "textPayload": "INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions \"HTTP/1.1 200 OK\"",
+    "insertId": "6981a3070000343e77cd0bd8",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "service_name": "ecosurvey-backend-v2",
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "configuration_name": "ecosurvey-backend-v2",
+        "project_id": "watch-mail-trial",
+        "location": "asia-south1"
+      }
+    },
+    "timestamp": "2026-02-03T07:25:59.013374Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T07:25:59.248315817Z"
+  },
+  {
+    "textPayload": "INFO:app.services.conversational_rag:Generated 3 query variants",
+    "insertId": "6981a30700009ca59426d0e4",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "service_name": "ecosurvey-backend-v2",
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "location": "asia-south1",
+        "project_id": "watch-mail-trial",
+        "configuration_name": "ecosurvey-backend-v2"
+      }
+    },
+    "timestamp": "2026-02-03T07:25:59.040101Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T07:25:59.248315817Z"
+  },
+  {
+    "textPayload": "INFO:httpx:HTTP Request: POST https://api.openai.com/v1/embeddings \"HTTP/1.1 200 OK\"",
+    "insertId": "6981a309000bdd0bb382a608",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "location": "asia-south1",
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "service_name": "ecosurvey-backend-v2",
+        "configuration_name": "ecosurvey-backend-v2",
+        "project_id": "watch-mail-trial"
+      }
+    },
+    "timestamp": "2026-02-03T07:26:01.777483Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T07:26:01.915201885Z"
+  },
+  {
+    "textPayload": "INFO:httpx:HTTP Request: POST https://api.openai.com/v1/embeddings \"HTTP/1.1 200 OK\"",
+    "insertId": "6981a30c000cfedb86a293fe",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "configuration_name": "ecosurvey-backend-v2",
+        "project_id": "watch-mail-trial",
+        "service_name": "ecosurvey-backend-v2",
+        "location": "asia-south1"
+      }
+    },
+    "timestamp": "2026-02-03T07:26:04.851675Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T07:26:04.913435375Z"
+  },
+  {
+    "textPayload": "INFO:httpx:HTTP Request: POST https://api.openai.com/v1/embeddings \"HTTP/1.1 200 OK\"",
+    "insertId": "6981a30e0005d647932362f0",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "service_name": "ecosurvey-backend-v2",
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "configuration_name": "ecosurvey-backend-v2",
+        "project_id": "watch-mail-trial",
+        "location": "asia-south1"
+      }
+    },
+    "timestamp": "2026-02-03T07:26:06.382535Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T07:26:06.574438372Z"
+  },
+  {
+    "textPayload": "INFO:httpx:HTTP Request: POST https://api.openai.com/v1/embeddings \"HTTP/1.1 200 OK\"",
+    "insertId": "6981a30f000992526c5bfe61",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "service_name": "ecosurvey-backend-v2",
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "location": "asia-south1",
+        "configuration_name": "ecosurvey-backend-v2",
+        "project_id": "watch-mail-trial"
+      }
+    },
+    "timestamp": "2026-02-03T07:26:07.627282Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T07:26:07.908614303Z"
+  },
+  {
+    "textPayload": "INFO:httpx:HTTP Request: POST https://api.openai.com/v1/embeddings \"HTTP/1.1 200 OK\"",
+    "insertId": "6981a31000004fb903d1b12b",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "configuration_name": "ecosurvey-backend-v2",
+        "location": "asia-south1",
+        "project_id": "watch-mail-trial",
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "service_name": "ecosurvey-backend-v2"
+      }
+    },
+    "timestamp": "2026-02-03T07:26:08.020409Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T07:26:08.241825763Z"
+  },
+  {
+    "textPayload": "INFO:httpx:HTTP Request: POST https://api.openai.com/v1/embeddings \"HTTP/1.1 200 OK\"",
+    "insertId": "6981a31000070a22505f0e03",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "location": "asia-south1",
+        "configuration_name": "ecosurvey-backend-v2",
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "project_id": "watch-mail-trial",
+        "service_name": "ecosurvey-backend-v2"
+      }
+    },
+    "timestamp": "2026-02-03T07:26:08.461346Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T07:26:08.576446646Z"
+  },
+  {
+    "textPayload": "INFO:httpx:HTTP Request: POST https://api.openai.com/v1/embeddings \"HTTP/1.1 200 OK\"",
+    "insertId": "6981a310000d281567496ae6",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "configuration_name": "ecosurvey-backend-v2",
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "project_id": "watch-mail-trial",
+        "location": "asia-south1",
+        "service_name": "ecosurvey-backend-v2"
+      }
+    },
+    "timestamp": "2026-02-03T07:26:08.862229Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T07:26:08.907516877Z"
+  },
+  {
+    "insertId": "6981a31e000d2ed09eb33233",
+    "httpRequest": {
+      "requestMethod": "GET",
+      "requestUrl": "https://ecosurvey-backend-v2-812016027146.asia-south1.run.app/api/health",
+      "requestSize": "367",
+      "status": 200,
+      "responseSize": "157",
+      "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-IN) WindowsPowerShell/5.1.26100.7670",
+      "remoteIp": "103.167.184.228",
+      "serverIp": "34.143.76.2",
+      "latency": "13.993011935s",
+      "protocol": "HTTP/1.1"
+    },
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "configuration_name": "ecosurvey-backend-v2",
+        "service_name": "ecosurvey-backend-v2",
+        "location": "asia-south1",
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "project_id": "watch-mail-trial"
+      }
+    },
+    "timestamp": "2026-02-03T07:26:08.869669Z",
+    "severity": "INFO",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Frequests",
+    "trace": "projects/watch-mail-trial/traces/db90da258a5756a92b246dce75d45dee",
+    "receiveTimestamp": "2026-02-03T07:26:23.200060897Z",
+    "spanId": "2fc2fca9b73fbd15",
+    "traceSampled": true
+  },
+  {
+    "textPayload": "INFO:httpx:HTTP Request: POST https://api.openai.com/v1/embeddings \"HTTP/1.1 200 OK\"",
+    "insertId": "6981a3110003fd1cf1ad6f19",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "project_id": "watch-mail-trial",
+        "configuration_name": "ecosurvey-backend-v2",
+        "service_name": "ecosurvey-backend-v2",
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "location": "asia-south1"
+      }
+    },
+    "timestamp": "2026-02-03T07:26:09.261404Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T07:26:09.571813974Z"
+  },
+  {
+    "textPayload": "INFO:httpx:HTTP Request: POST https://api.openai.com/v1/embeddings \"HTTP/1.1 200 OK\"",
+    "insertId": "6981a3110009e800d8c1536e",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "project_id": "watch-mail-trial",
+        "configuration_name": "ecosurvey-backend-v2",
+        "location": "asia-south1",
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "service_name": "ecosurvey-backend-v2"
+      }
+    },
+    "timestamp": "2026-02-03T07:26:09.649216Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T07:26:09.907095966Z"
+  },
+  {
+    "textPayload": "INFO:httpx:HTTP Request: POST https://api.openai.com/v1/embeddings \"HTTP/1.1 200 OK\"",
+    "insertId": "6981a312000271bdefedb66f",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "service_name": "ecosurvey-backend-v2",
+        "location": "asia-south1",
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "configuration_name": "ecosurvey-backend-v2",
+        "project_id": "watch-mail-trial"
+      }
+    },
+    "timestamp": "2026-02-03T07:26:10.160189Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T07:26:10.245412886Z"
+  },
+  {
+    "textPayload": "INFO:httpx:HTTP Request: POST https://api.openai.com/v1/embeddings \"HTTP/1.1 200 OK\"",
+    "insertId": "6981a3120008d71cc3cefd1b",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "project_id": "watch-mail-trial",
+        "location": "asia-south1",
+        "service_name": "ecosurvey-backend-v2",
+        "configuration_name": "ecosurvey-backend-v2",
+        "revision_name": "ecosurvey-backend-v2-00011-z72"
+      }
+    },
+    "timestamp": "2026-02-03T07:26:10.579356Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T07:26:10.905290689Z"
+  },
+  {
+    "textPayload": "INFO:httpx:HTTP Request: POST https://api.openai.com/v1/embeddings \"HTTP/1.1 200 OK\"",
+    "insertId": "6981a313000155a7341b4166",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "configuration_name": "ecosurvey-backend-v2",
+        "service_name": "ecosurvey-backend-v2",
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "project_id": "watch-mail-trial",
+        "location": "asia-south1"
+      }
+    },
+    "timestamp": "2026-02-03T07:26:11.087463Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T07:26:11.236382241Z"
+  },
+  {
+    "textPayload": "INFO:httpx:HTTP Request: POST https://api.openai.com/v1/embeddings \"HTTP/1.1 200 OK\"",
+    "insertId": "6981a3130007a117d7e6a260",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "service_name": "ecosurvey-backend-v2",
+        "project_id": "watch-mail-trial",
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "configuration_name": "ecosurvey-backend-v2",
+        "location": "asia-south1"
+      }
+    },
+    "timestamp": "2026-02-03T07:26:11.499991Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T07:26:11.572222280Z"
+  },
+  {
+    "textPayload": "INFO:httpx:HTTP Request: POST https://api.openai.com/v1/embeddings \"HTTP/1.1 200 OK\"",
+    "insertId": "6981a313000da22118bc69b8",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "location": "asia-south1",
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "configuration_name": "ecosurvey-backend-v2",
+        "service_name": "ecosurvey-backend-v2",
+        "project_id": "watch-mail-trial"
+      }
+    },
+    "timestamp": "2026-02-03T07:26:11.893473Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T07:26:11.904520464Z"
+  },
+  {
+    "textPayload": "INFO:app.services.conversational_rag:Retrieved 5 chunks for session session-gYJ1KMiMyGcWXzv61vINKruX0ix1, turn 1, shown_total: 5",
+    "insertId": "6981a313000e0ffeb2e8ab70",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "service_name": "ecosurvey-backend-v2",
+        "configuration_name": "ecosurvey-backend-v2",
+        "location": "asia-south1",
+        "project_id": "watch-mail-trial",
+        "revision_name": "ecosurvey-backend-v2-00011-z72"
+      }
+    },
+    "timestamp": "2026-02-03T07:26:11.921598Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T07:26:12.235127199Z"
+  },
+  {
+    "textPayload": "INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions \"HTTP/1.1 200 OK\"",
+    "insertId": "6981a31d000411e600d44b68",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "configuration_name": "ecosurvey-backend-v2",
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "location": "asia-south1",
+        "project_id": "watch-mail-trial",
+        "service_name": "ecosurvey-backend-v2"
+      }
+    },
+    "timestamp": "2026-02-03T07:26:21.266726Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T07:26:21.562105940Z"
+  },
+  {
+    "textPayload": "INFO:app.services.firestore_sessions:Session session-gYJ1KMiMyGcWXzv61vINKruX0ix1 created for user gYJ1KMiMyGcWXzv61vINKruX0ix1",
+    "insertId": "6981a31e000d1ec2bb49da39",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "project_id": "watch-mail-trial",
+        "location": "asia-south1",
+        "configuration_name": "ecosurvey-backend-v2",
+        "service_name": "ecosurvey-backend-v2"
+      }
+    },
+    "timestamp": "2026-02-03T07:26:22.859842Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T07:26:22.892879527Z"
+  },
+  {
+    "textPayload": "INFO:app.api.rag_chat_v2:Session session-gYJ1KMiMyGcWXzv61vINKruX0ix1 saved to Firestore",
+    "insertId": "6981a31e000d1f157c083ac3",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "project_id": "watch-mail-trial",
+        "location": "asia-south1",
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "configuration_name": "ecosurvey-backend-v2",
+        "service_name": "ecosurvey-backend-v2"
+      }
+    },
+    "timestamp": "2026-02-03T07:26:22.859925Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-03T07:26:22.892879527Z"
+  },
+  {
+    "textPayload": "INFO:     169.254.169.126:46972 - \"POST /api/rag-chat-v2 HTTP/1.1\" 200 OK",
+    "insertId": "6981a31e000d22646d34a086",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "configuration_name": "ecosurvey-backend-v2",
+        "project_id": "watch-mail-trial",
+        "location": "asia-south1",
+        "service_name": "ecosurvey-backend-v2",
+        "revision_name": "ecosurvey-backend-v2-00011-z72"
+      }
+    },
+    "timestamp": "2026-02-03T07:26:22.860772Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-02-03T07:26:22.864969008Z"
+  },
+  {
+    "textPayload": "INFO:     169.254.169.126:43134 - \"GET /api/health HTTP/1.1\" 200 OK",
+    "insertId": "6981a31e000d2c2bf5863b4d",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "project_id": "watch-mail-trial",
+        "revision_name": "ecosurvey-backend-v2-00011-z72",
+        "service_name": "ecosurvey-backend-v2",
+        "location": "asia-south1",
+        "configuration_name": "ecosurvey-backend-v2"
+      }
+    },
+    "timestamp": "2026-02-03T07:26:22.863275Z",
+    "labels": {
+      "instanceId": "005eb6974c00a1a1669c68d371d05e783d8266be87b64c7756fb6d8dde36909273b374cd9429276c7e832d414382de467063654d3065ae3a36c215217fb0a9196c1934402299e0ed069176f5f5e20417a9297d3198"
+    },
+    "logName": "projects/watch-mail-trial/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-02-03T07:26:23.198977154Z"
+  }
+]
