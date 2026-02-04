@@ -263,6 +263,9 @@ function App() {
               <p style={{ fontSize: '0.85em', marginTop: '8px', color: '#15803d' }}>
                 💡 The link works on any device - even if opened elsewhere!
               </p>
+              <p style={{ fontSize: '0.85em', marginTop: '8px', color: '#15803d', fontWeight: 500 }}>
+                📬 Don't see it? Check your spam/junk folder.
+              </p>
             </div>
             <button 
               onClick={() => { setEmailSent(false); setEmail(''); }}
