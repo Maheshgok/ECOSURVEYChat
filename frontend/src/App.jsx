@@ -145,16 +145,16 @@ function App() {
   const handleSignIn = async () => {
     try {
       setAuthError(null)
+      setLoading(true)
       await signInWithGoogle()
       // Page will redirect to Google - no code after this runs
     } catch (error) {
       console.error('Sign in error:', error)
-      if (error.message.includes('storage') || error.message.includes('cookie')) {
-        setUseEmailAuth(true)
-        setAuthError('Google sign-in requires cookies. Please use email sign-in instead.')
-      } else {
-        setAuthError(error.message || 'Failed to sign in. Please try again.')
-      }
+      setLoading(false)
+      
+      // Auto-switch to email auth silently - no failure message
+      setUseEmailAuth(true)
+      // No error message - just show the email form
     }
   }
 
@@ -244,16 +244,20 @@ function App() {
         <div className="app login">
           <div className="login-container">
             <h1>Check Your Email</h1>
-            <p>✉️ We sent a sign-in link to <strong>{email}</strong></p>
-            <div className="info-box">
-              <p>Click the link in your email to sign in.</p>
-              <p style={{ fontSize: '0.85em', marginTop: '10px', color: '#6b7280' }}>
-                The link works on any device - even if cookies are disabled!
+            <div className="info-box" style={{ background: '#f0fdf4', borderColor: '#86efac' }}>
+              <p style={{ color: '#166534', margin: 0 }}>✉️ <strong>We've sent a sign-in link to:</strong></p>
+              <p style={{ color: '#166534', fontSize: '1.1em', fontWeight: 600, margin: '10px 0' }}>{email}</p>
+              <p style={{ fontSize: '0.9em', marginTop: '10px', color: '#166534' }}>
+                Please click the link in your email to sign in.
+              </p>
+              <p style={{ fontSize: '0.85em', marginTop: '8px', color: '#15803d' }}>
+                💡 The link works on any device - even if opened elsewhere!
               </p>
             </div>
             <button 
               onClick={() => { setEmailSent(false); setEmail(''); }}
               className="btn-secondary"
+              style={{ marginTop: '15px' }}
             >
               Use Different Email
             </button>
@@ -268,23 +272,18 @@ function App() {
           <h1>ECO Survey Chat</h1>
           <p>AI-powered survey data analysis</p>
           
-          {authError && (
-            <div className="auth-error">
-              <p>{authError}</p>
-              {cookiesDisabled && (
-                <p style={{ fontSize: '0.85em', marginTop: '8px', color: '#991b1b' }}>
-                  💡 Email sign-in works on ALL devices - no cookies or storage needed!
-                </p>
-              )}
-            </div>
-          )}
-
           {useEmailAuth ? (
             <div className="auth-methods">
+              <div className="info-box" style={{ marginBottom: '15px', background: '#eff6ff', borderColor: '#93c5fd' }}>
+                <p style={{ color: '#1e40af', margin: 0, fontSize: '1em' }}>✉️ <strong>Sign in with Email</strong></p>
+                <p style={{ fontSize: '0.85em', marginTop: '8px', color: '#1e40af' }}>
+                  Enter your email below and we'll send you a link to sign in instantly.
+                </p>
+              </div>
               <form onSubmit={handleEmailSignIn} className="email-form">
                 <input
                   type="email"
-                  placeholder="Enter your email"
+                  placeholder="Enter your email address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="email-input"
@@ -295,36 +294,44 @@ function App() {
                   {loading ? 'Sending...' : 'Send Sign-In Link'}
                 </button>
               </form>
-              <div className="info-box">
-                <p>✨ <strong>Works on ALL devices</strong></p>
-                <p style={{ fontSize: '0.85em', marginTop: '5px' }}>
-                  No cookies, storage, or popups needed. Perfect for corporate devices!
-                </p>
-              </div>
+              {authError && (
+                <div className="auth-error" style={{ marginTop: '10px' }}>
+                  <p>{authError}</p>
+                </div>
+              )}
               {!cookiesDisabled && (
                 <button 
-                  onClick={() => setUseEmailAuth(false)}
+                  onClick={() => { setUseEmailAuth(false); setAuthError(null); }}
                   className="btn-secondary"
+                  style={{ marginTop: '15px' }}
                 >
-                  Or use Google Sign-In
+                  ← Back to Google Sign-In
                 </button>
               )}
             </div>
           ) : (
             <div className="auth-methods">
-              <button onClick={handleSignIn} className="btn-login">
+              {authError && (
+                <div className="auth-error" style={{ marginBottom: '15px' }}>
+                  <p>{authError}</p>
+                </div>
+              )}
+              <button onClick={handleSignIn} className="btn-login" disabled={loading}>
                 <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
-                Sign in with Google
+                {loading ? 'Signing in...' : 'Sign in with Google'}
               </button>
               <div className="divider">
                 <span>or</span>
               </div>
               <button 
-                onClick={() => setUseEmailAuth(true)}
+                onClick={() => { setUseEmailAuth(true); setAuthError(null); }}
                 className="btn-email-switch"
               >
-                📧 Sign in with Email (no cookies needed)
+                📧 Sign in with Email
               </button>
+              <p style={{ fontSize: '0.8em', color: '#6b7280', marginTop: '10px', textAlign: 'center' }}>
+                Email option works on all devices
+              </p>
             </div>
           )}
         </div>
