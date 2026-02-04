@@ -152,33 +152,8 @@ function App() {
       console.error('Sign in error:', error)
       setLoading(false)
       
-      // Try to extract email from the error or auth state
-      let userEmail = null
-      try {
-        // Check if user partially signed in
-        if (auth.currentUser?.email) {
-          userEmail = auth.currentUser.email
-        }
-      } catch (e) {
-        console.log('Could not extract email from auth state')
-      }
-      
-      if (userEmail) {
-        // Auto-send magic link if we have email
-        console.log('Auto-sending magic link to:', userEmail)
-        setEmail(userEmail)
-        try {
-          await sendPasswordlessEmail(userEmail)
-          setEmailSent(true)
-        } catch (emailError) {
-          console.error('Error auto-sending email:', emailError)
-          setUseEmailAuth(true)
-          setEmail(userEmail) // Pre-fill the email
-        }
-      } else {
-        // Show email form to get their email
-        setUseEmailAuth(true)
-      }
+      // Google failed - automatically move to email sign-in
+      setUseEmailAuth(true)
     }
   }
 
@@ -299,9 +274,9 @@ function App() {
           {useEmailAuth ? (
             <div className="auth-methods">
               <div className="info-box" style={{ marginBottom: '15px', background: '#eff6ff', borderColor: '#93c5fd' }}>
-                <p style={{ color: '#1e40af', margin: 0, fontSize: '1em' }}>✉️ <strong>Confirm your email</strong></p>
+                <p style={{ color: '#1e40af', margin: 0, fontSize: '1em' }}>✉️ <strong>Sign in with email</strong></p>
                 <p style={{ fontSize: '0.85em', marginTop: '8px', color: '#1e40af' }}>
-                  We'll send you a link to sign in securely.
+                  We'll send you a secure sign-in link.
                 </p>
               </div>
               <form onSubmit={handleEmailSignIn} className="email-form">
@@ -315,7 +290,7 @@ function App() {
                   autoFocus
                 />
                 <button type="submit" className="btn-email" disabled={loading}>
-                  {loading ? 'Sending...' : 'Continue'}
+                  {loading ? 'Sending...' : 'Send Sign-In Link'}
                 </button>
               </form>
               {authError && (
@@ -326,23 +301,10 @@ function App() {
             </div>
           ) : (
             <div className="auth-methods">
-              {authError && (
-                <div className="auth-error" style={{ marginBottom: '15px' }}>
-                  <p>{authError}</p>
-                </div>
-              )}
               <button onClick={handleSignIn} className="btn-login" disabled={loading}>
                 <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
                 {loading ? 'Signing in...' : 'Sign in with Google'}
               </button>
-              <p style={{ fontSize: '0.85em', color: '#6b7280', marginTop: '15px', textAlign: 'center' }}>
-                Having trouble? <button 
-                  onClick={() => { setUseEmailAuth(true); setAuthError(null); }}
-                  style={{ background: 'none', border: 'none', color: '#10a37f', cursor: 'pointer', textDecoration: 'underline', padding: 0, font: 'inherit' }}
-                >
-                  Sign in with email instead
-                </button>
-              </p>
             </div>
           )}
         </div>
