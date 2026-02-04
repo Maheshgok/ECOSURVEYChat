@@ -6,7 +6,7 @@ import {
   GoogleAuthProvider, 
   signOut,
   sendSignInLinkToEmail,
-  isSignInWithEmailLink,
+  isSignInWithEmailLink as firebaseIsSignInWithEmailLink,
   signInWithEmailLink,
   setPersistence,
   inMemoryPersistence,
@@ -25,6 +25,11 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig)
 export const auth = getAuth(app)
+
+// Re-export for use in App.jsx
+export const isSignInWithEmailLink = (auth, url) => {
+  return firebaseIsSignInWithEmailLink(auth, url)
+}
 
 // Storage fallback hierarchy: localStorage → sessionStorage → memory
 export const initializeAuth = async () => {
@@ -125,7 +130,7 @@ export const sendPasswordlessEmail = async (email) => {
 
 // Complete email link sign-in
 export const completeEmailSignIn = async (emailFromUser) => {
-  if (!isSignInWithEmailLink(auth, window.location.href)) {
+  if (!firebaseIsSignInWithEmailLink(auth, window.location.href)) {
     return null
   }
 
