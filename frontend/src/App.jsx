@@ -164,18 +164,7 @@ function App() {
     } catch (error) {
       console.error('Sign in error:', error)
       setLoading(false)
-      
-      // Only auto-switch to email for specific errors, not cancellations
-      if (error.code === 'auth/popup-closed-by-user' || 
-          error.code === 'auth/cancelled-popup-request' ||
-          error.code === 'auth/user-cancelled') {
-        // User cancelled - just reset, don't switch to email
-        return
-      }
-      
-      // For actual failures, automatically move to email sign-in
-      setUseEmailAuth(true)
-      setAuthError('Let\'s try email sign-in instead.')
+      setAuthError(error.message || 'Sign-in failed. Please try email sign-in.')
     }
   }
 
@@ -320,12 +309,39 @@ function App() {
                   <p>{authError}</p>
                 </div>
               )}
+              <button 
+                onClick={() => { setUseEmailAuth(false); setAuthError(null); setEmail(''); }}
+                className="btn-secondary"
+                style={{ marginTop: '15px' }}
+              >
+                ← Back to Google Sign-In
+              </button>
             </div>
           ) : (
             <div className="auth-methods">
+              {authError && (
+                <div className="auth-error" style={{ marginBottom: '15px' }}>
+                  <p>{authError}</p>
+                </div>
+              )}
+              <div className="info-box" style={{ marginBottom: '15px', background: '#f0fdf4', borderColor: '#86efac' }}>
+                <p style={{ color: '#166534', margin: 0, fontSize: '0.9em', lineHeight: '1.5' }}>
+                  <strong>Quick Sign-In:</strong> Click Google below for instant access.<br/>
+                  <span style={{ fontSize: '0.85em' }}>If Google doesn't work, use the email option instead.</span>
+                </p>
+              </div>
               <button onClick={handleSignIn} className="btn-login" disabled={loading}>
                 <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
                 {loading ? 'Signing in...' : 'Sign in with Google'}
+              </button>
+              <div className="divider">
+                <span>or</span>
+              </div>
+              <button 
+                onClick={() => { setUseEmailAuth(true); setAuthError(null); }}
+                className="btn-email-switch"
+              >
+                📧 Sign in with Email
               </button>
             </div>
           )}
