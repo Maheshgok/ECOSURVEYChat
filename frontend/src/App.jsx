@@ -11,10 +11,7 @@ function App() {
   const [emailAuthMode, setEmailAuthMode] = useState(false)
   const [email, setEmail] = useState('')
   const [emailSent, setEmailSent] = useState(false)
-  const [persistenceMode, setPersistenceMode] = useState('unknown')
   const [useEmailAuth, setUseEmailAuth] = useState(false)
-  const [email, setEmail] = useState('')
-  const [emailSent, setEmailSent] = useState(false)
   const [emailInput, setEmailInput] = useState('')
 
   useEffect(() => {
