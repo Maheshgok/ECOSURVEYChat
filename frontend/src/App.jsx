@@ -323,15 +323,6 @@ function App() {
                   <p>{authError}</p>
                 </div>
               )}
-              {!cookiesDisabled && (
-                <button 
-                  onClick={() => { setUseEmailAuth(false); setAuthError(null); setEmail(''); }}
-                  className="btn-secondary"
-                  style={{ marginTop: '15px' }}
-                >
-                  ← Back to Google Sign-In
-                </button>
-              )}
             </div>
           ) : (
             <div className="auth-methods">
@@ -344,17 +335,13 @@ function App() {
                 <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
                 {loading ? 'Signing in...' : 'Sign in with Google'}
               </button>
-              <div className="divider">
-                <span>or</span>
-              </div>
-              <button 
-                onClick={() => { setUseEmailAuth(true); setAuthError(null); }}
-                className="btn-email-switch"
-              >
-                📧 Sign in with Email
-              </button>
-              <p style={{ fontSize: '0.8em', color: '#6b7280', marginTop: '10px', textAlign: 'center' }}>
-                Email option works on all devices
+              <p style={{ fontSize: '0.85em', color: '#6b7280', marginTop: '15px', textAlign: 'center' }}>
+                Having trouble? <button 
+                  onClick={() => { setUseEmailAuth(true); setAuthError(null); }}
+                  style={{ background: 'none', border: 'none', color: '#10a37f', cursor: 'pointer', textDecoration: 'underline', padding: 0, font: 'inherit' }}
+                >
+                  Sign in with email instead
+                </button>
               </p>
             </div>
           )}
