@@ -152,9 +152,33 @@ function App() {
       console.error('Sign in error:', error)
       setLoading(false)
       
-      // Auto-switch to email auth silently - no failure message
-      setUseEmailAuth(true)
-      // No error message - just show the email form
+      // Try to extract email from the error or auth state
+      let userEmail = null
+      try {
+        // Check if user partially signed in
+        if (auth.currentUser?.email) {
+          userEmail = auth.currentUser.email
+        }
+      } catch (e) {
+        console.log('Could not extract email from auth state')
+      }
+      
+      if (userEmail) {
+        // Auto-send magic link if we have email
+        console.log('Auto-sending magic link to:', userEmail)
+        setEmail(userEmail)
+        try {
+          await sendPasswordlessEmail(userEmail)
+          setEmailSent(true)
+        } catch (emailError) {
+          console.error('Error auto-sending email:', emailError)
+          setUseEmailAuth(true)
+          setEmail(userEmail) // Pre-fill the email
+        }
+      } else {
+        // Show email form to get their email
+        setUseEmailAuth(true)
+      }
     }
   }
 
@@ -275,15 +299,15 @@ function App() {
           {useEmailAuth ? (
             <div className="auth-methods">
               <div className="info-box" style={{ marginBottom: '15px', background: '#eff6ff', borderColor: '#93c5fd' }}>
-                <p style={{ color: '#1e40af', margin: 0, fontSize: '1em' }}>✉️ <strong>Sign in with Email</strong></p>
+                <p style={{ color: '#1e40af', margin: 0, fontSize: '1em' }}>✉️ <strong>Confirm your email</strong></p>
                 <p style={{ fontSize: '0.85em', marginTop: '8px', color: '#1e40af' }}>
-                  Enter your email below and we'll send you a link to sign in instantly.
+                  We'll send you a link to sign in securely.
                 </p>
               </div>
               <form onSubmit={handleEmailSignIn} className="email-form">
                 <input
                   type="email"
-                  placeholder="Enter your email address"
+                  placeholder="your.email@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="email-input"
@@ -291,7 +315,7 @@ function App() {
                   autoFocus
                 />
                 <button type="submit" className="btn-email" disabled={loading}>
-                  {loading ? 'Sending...' : 'Send Sign-In Link'}
+                  {loading ? 'Sending...' : 'Continue'}
                 </button>
               </form>
               {authError && (
@@ -301,7 +325,7 @@ function App() {
               )}
               {!cookiesDisabled && (
                 <button 
-                  onClick={() => { setUseEmailAuth(false); setAuthError(null); }}
+                  onClick={() => { setUseEmailAuth(false); setAuthError(null); setEmail(''); }}
                   className="btn-secondary"
                   style={{ marginTop: '15px' }}
                 >
