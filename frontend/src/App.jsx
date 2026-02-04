@@ -15,12 +15,11 @@ function App() {
   const [emailInput, setEmailInput] = useState('')
 
   useEffect(() => {
-    // Check if this is an email link sign-in
-    const checkEmailLink = async () => {
+    const initialize = async () => {
+      // Check if this is an email link sign-in
       if (isSignInWithEmailLink(auth, window.location.href)) {
         try {
           setLoading(true)
-          // Check if email is in URL or storage
           const params = new URLSearchParams(window.location.search)
           const urlEmail = params.get('email')
           let savedEmail = null
@@ -34,84 +33,113 @@ function App() {
             const user = await completeEmailSignIn(emailToUse)
             setUser(user)
             setLoading(false)
-            return true
+            return
           } else {
-            // Need user to enter email
             setEmailInput('')
             setUseEmailAuth(true)
             setAuthError('Please enter your email address to complete sign-in.')
             setLoading(false)
-            return true
+            return
           }
         } catch (error) {
           console.error('Email link sign-in error:', error)
           setAuthError(error.message)
           setLoading(false)
-          return true
+          return
         }
       }
-      return false
-    }
 
-    // Check email link first
-    checkEmailLink().then((wasEmailLink) => {
-      if (wasEmailLink) return
-
-      // Check if cookies are enabled
-      const checkCookies = () => {
+      // Auto-detect storage availability
+      const detectStorage = () => {
+        let cookiesWork = false
+        let sessionStorageWork = false
+        let localStorageWork = false
+        
+        // Test cookies
         try {
-          document.cookie = 'cookietest=1; SameSite=Lax'
-          const cookiesEnabled = document.cookie.indexOf('cookietest') !== -1
-          document.cookie = 'cookietest=1; expires=Thu, 01-Jan-1970 00:00:01 GMT'
-          return cookiesEnabled
+          document.cookie = 'storagetest=1; SameSite=Lax'
+          cookiesWork = document.cookie.indexOf('storagetest') !== -1
+          document.cookie = 'storagetest=1; expires=Thu, 01-Jan-1970 00:00:01 GMT'
         } catch (e) {
-          return false
+          cookiesWork = false
         }
+        
+        // Test sessionStorage
+        try {
+          sessionStorage.setItem('storagetest', '1')
+          sessionStorageWork = sessionStorage.getItem('storagetest') === '1'
+          sessionStorage.removeItem('storagetest')
+        } catch (e) {
+          sessionStorageWork = false
+        }
+        
+        // Test localStorage
+        try {
+          localStorage.setItem('storagetest', '1')
+          localStorageWork = localStorage.getItem('storagetest') === '1'
+          localStorage.removeItem('storagetest')
+        } catch (e) {
+          localStorageWork = false
+        }
+        
+        console.log('Storage detection:', { cookiesWork, sessionStorageWork, localStorageWork })
+        
+        return { cookiesWork, sessionStorageWork, localStorageWork }
       }
 
-      const cookiesAvailable = checkCookies()
-      setCookiesDisabled(!cookiesAvailable)
+      const storage = detectStorage()
+      setCookiesDisabled(!storage.cookiesWork)
 
-      if (!cookiesAvailable) {
-        // Auto-switch to email auth for cookie-less environments
+      // If NO storage available, force email auth
+      if (!storage.cookiesWork && !storage.sessionStorageWork && !storage.localStorageWork) {
+        console.log('No storage available - switching to email auth')
         setUseEmailAuth(true)
-        setAuthError('Browser cookies disabled. Using passwordless email sign-in.')
+        setAuthError('⚠️ Browser storage is disabled. Using passwordless email sign-in.')
         setLoading(false)
         return
       }
 
-      // Handle redirect result (for Google sign-in)
-      handleRedirectResult()
-        .then((redirectUser) => {
-          if (redirectUser) {
-            console.log('Redirect sign-in completed')
-            setUser(redirectUser)
-            setLoading(false)
-          } else {
-            const currentUser = auth.currentUser
-            setUser(currentUser)
-            setLoading(false)
-          }
-        })
-        .catch((error) => {
-          console.error('Redirect auth error:', error)
-          if (error.message.includes('storage')) {
-            // Storage issue - suggest email auth
-            setUseEmailAuth(true)
-            setAuthError('Browser storage restricted. Please use email sign-in instead.')
-          } else {
-            setAuthError(error.message || 'Authentication failed. Please try again.')
-          }
-          setLoading(false)
-        })
+      // If only sessionStorage works (cookies disabled but storage available)
+      if (!storage.cookiesWork && (storage.sessionStorageWork || storage.localStorageWork)) {
+        console.log('Cookies disabled but storage available - Google auth may work')
+        // Let them try Google first, but show email option prominently
+      }
 
-      // Listen for auth state changes
-      const unsubscribe = auth.onAuthStateChanged((user) => {
-        setUser(user)
-        if (loading) setLoading(false)
-      })
-      return () => unsubscribe()
+      // Handle Google redirect result
+      try {
+        const redirectUser = await handleRedirectResult()
+        if (redirectUser) {
+          console.log('Redirect sign-in completed')
+          setUser(redirectUser)
+          setLoading(false)
+          return
+        }
+      } catch (error) {
+        console.error('Redirect auth error:', error)
+        if (error.message.includes('storage') || error.message.includes('web-storage-unsupported')) {
+          // Storage issue - auto-switch to email auth
+          console.log('Storage error detected - switching to email auth')
+          setUseEmailAuth(true)
+          setAuthError('⚠️ Google sign-in requires browser storage. Please use email sign-in instead.')
+        } else {
+          setAuthError(error.message || 'Authentication failed. Please try again.')
+        }
+      }
+
+      // Check current auth state
+      const currentUser = auth.currentUser
+      setUser(currentUser)
+      setLoading(false)
+    }
+
+    initialize()
+
+    // Listen for auth state changes
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setUser(user)
+      if (loading) setLoading(false)
     })
+    return () => unsubscribe()
   }, [])
 
   const handleSignIn = async () => {
@@ -242,7 +270,12 @@ function App() {
           
           {authError && (
             <div className="auth-error">
-              <p>{cookiesDisabled ? '⚠️' : '❌'} {authError}</p>
+              <p>{authError}</p>
+              {cookiesDisabled && (
+                <p style={{ fontSize: '0.85em', marginTop: '8px', color: '#991b1b' }}>
+                  💡 Email sign-in works on ALL devices - no cookies or storage needed!
+                </p>
+              )}
             </div>
           )}
 
