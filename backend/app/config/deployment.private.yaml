@@ -1,0 +1,60 @@
+# Example deployment configuration for Private Cloud (Kubernetes + Enterprise SSO)
+
+deployment:
+  target: private
+  environment: production
+  region: on-prem
+
+auth:
+  provider: custom_jwt
+  secret_key: ${JWT_SECRET_KEY}
+  algorithm: RS256  # Use RSA for production
+  audience: https://your-company.com
+  issuer: https://your-company.com/auth
+  # Integrates with Okta, Auth0, LDAP, or your SSO
+
+sessions:
+  provider: postgres  # Traditional SQL storage
+  connection_string: ${DATABASE_URL}
+  table_name: chat_sessions
+  ttl_seconds: 7200
+  
+  # Optional: Redis for caching
+  redis_enabled: true
+  redis_host: ${REDIS_HOST}
+  redis_port: 6379
+  redis_password: ${REDIS_PASSWORD}
+
+vectors:
+  provider: pinecone  # Or self-hosted Qdrant/Weaviate
+  index_name: economic-survey-2026
+
+observability:
+  metrics_enabled: true
+  logging_level: INFO
+  feature_flags_enabled: true
+  
+  # Export to Prometheus
+  export_to_prometheus: true
+ prometheus_port: 9090
+  
+  # Or export to OpenTelemetry
+  # export_to_otel: true
+  # otel_endpoint: http://otel-collector:4318
+
+# Kubernetes specific
+kubernetes:
+  replicas: 3
+  resources:
+    requests:
+      cpu: 1000m
+      memory: 2Gi
+    limits:
+      cpu: 2000m
+      memory: 4Gi
+  
+  # Horizontal Pod Autoscaler
+  hpa:
+    min_replicas: 2
+    max_replicas: 10
+    target_cpu_percent: 70

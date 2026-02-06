@@ -30,13 +30,13 @@ git clean -fd
 Write-Host "✓ Cleanup complete" -ForegroundColor Green
 
 Write-Host ""
-Write-Host "Step 4: Applying stash backup..." -ForegroundColor Cyan
-$stashExists = git stash list | Select-String "PRE_ADAPTER_CLEANUP"
-if ($stashExists) {
-    git stash apply stash@{0}
-    Write-Host "✓ Stash applied" -ForegroundColor Green
+Write-Host "Step 4: Restoring to checkpoint commit..." -ForegroundColor Cyan
+$checkpointExists = git log --oneline | Select-String "4d9ad3e"
+if ($checkpointExists) {
+    git reset --hard 4d9ad3e
+    Write-Host "✓ Reset to checkpoint 4d9ad3e" -ForegroundColor Green
 } else {
-    Write-Host "⚠ No stash found. Using diff file..." -ForegroundColor Yellow
+    Write-Host "⚠ Checkpoint not found. Using alternative..." -ForegroundColor Yellow
     if (Test-Path "PRE_ADAPTER_CLEANUP.diff") {
         git apply --reverse PRE_ADAPTER_CLEANUP.diff
         Write-Host "✓ Diff applied" -ForegroundColor Green

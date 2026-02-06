@@ -65,5 +65,21 @@ def get_db_context():
     db = SessionLocal()
     try:
         yield db
+        db.commit()
+    except Exception:
+        db.rollback()
+        raise
+    finally:
+        db.close()
+
+
+from contextlib import contextmanager
+
+@contextmanager
+def get_db_context():
+    """Context manager for database sessions (used by ingestion)"""
+    db = SessionLocal()
+    try:
+        yield db
     finally:
         db.close()

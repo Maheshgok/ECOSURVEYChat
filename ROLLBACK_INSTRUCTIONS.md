@@ -2,16 +2,22 @@
 
 **Created:** February 6, 2026  
 **Backup Point:** Pre-adapter pattern implementation  
-**Git Stash:** `stash@{0}: PRE_ADAPTER_CLEANUP_20260206_112908`
+**Git Commit:** `4d9ad3e` - "Pre-adapter cleanup checkpoint - rollback point created"  
+**Diff File:** `PRE_ADAPTER_CLEANUP.diff`
 
 ## Quick Rollback (If Something Breaks)
 
-### Option 1: Git Stash Rollback (Recommended)
+### Option 1: Git Reset (Recommended - Safest)
 ```powershell
-# Discard all current changes and restore backup
-git reset --hard HEAD
+# Revert to the checkpoint commit
+git reset --hard 4d9ad3e
 git clean -fd
-git stash apply stash@{0}
+```
+
+### Option 2: Git Revert (Keep History)
+```powershell
+# Create a new commit that undoes changes
+git revert HEAD --no-edit
 ```
 
 ### Option 2: Apply Saved Diff

@@ -1,0 +1,44 @@
+# Example deployment configuration for Azure (Azure AD + Container Apps)
+
+deployment:
+  target: azure
+  environment: production
+  region: eastus
+
+auth:
+  provider: azure_ad
+  tenant_id: ${AZURE_TENANT_ID}
+  client_id: ${AZURE_CLIENT_ID}
+  # Supports Microsoft SSO out of the box
+
+sessions:
+  provider: cosmosdb  # Azure-native NoSQL
+  database_name: rag-sessions
+  container_name: chat_sessions
+  ttl_seconds: 3600
+  
+  # Alternative: Use Postgres if you need SQL
+  # provider: postgres
+  # connection_string: ${AZURE_POSTGRES_CONNECTION_STRING}
+
+vectors:
+  provider: pinecone  # Works on Azure
+  # Alternative: provider: azure_ai_search
+  index_name: economic-survey-2026
+
+observability:
+  metrics_enabled: true
+  logging_level: INFO
+  feature_flags_enabled: true
+  
+  # Export to Azure Monitor
+  export_to_azure_monitor: true
+  application_insights_key: ${APPINSIGHTS_INSTRUMENTATIONKEY}
+
+# Azure Container Apps specific
+container_apps:
+  max_replicas: 10
+  min_replicas: 1
+  cpu: 2.0
+  memory: 4Gi
+  target_port: 8080

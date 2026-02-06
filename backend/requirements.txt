@@ -39,6 +39,7 @@ msal
 
 # Observability
 prometheus-client
+pyyaml  # For deployment config files
 
 # Utilities
 requests

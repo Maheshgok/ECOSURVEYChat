@@ -1,0 +1,41 @@
+# Example deployment configuration for GCP (Firebase + Cloud Run)
+
+deployment:
+  target: gcp
+  environment: production
+  region: asia-south1
+
+auth:
+  provider: firebase
+  # project_id loaded from FIREBASE_PROJECT_ID env var
+
+sessions:
+  provider: firestore  # Zero-config session storage
+  ttl_seconds: 3600
+  
+  # Optional: Enable Redis for ultra-fast caching
+  # redis_enabled: true
+  # redis_host: ${REDIS_HOST}
+  # redis_port: 6379
+
+vectors:
+  provider: pinecone
+  index_name: economic-survey-2026
+  dimension: 3072
+  metric: cosine
+
+observability:
+  metrics_enabled: true
+  logging_level: INFO
+  feature_flags_enabled: false
+  
+  # Optional: Export to Cloud Monitoring
+  # export_to_cloud_monitoring: true
+
+# Cloud Run specific
+cloud_run:
+  max_instances: 10
+  min_instances: 1
+  cpu: 2
+  memory: 4Gi
+  timeout: 300
