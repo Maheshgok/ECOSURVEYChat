@@ -11,6 +11,5 @@ COPY backend/ .
 # Expose port
 EXPOSE 8080
 
-# Run migrations and start server
-CMD python -c "from app.core.database import engine; from app.models import Base; Base.metadata.create_all(bind=engine); print('✓ Database initialized')" && \
-    uvicorn app.main:app --host 0.0.0.0 --port 8080
+# Run server (skip database init for cloud deployments without PostgreSQL)
+CMD uvicorn app.main:app --host 0.0.0.0 --port 8080
