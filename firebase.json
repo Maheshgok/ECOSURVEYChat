@@ -16,11 +16,11 @@
       },
       {
         "source": "/chatbot/ecosurveybudget2026/**",
-        "destination": "/chatbot/ecosurveybudget2026/index.html"
+        "destination": "/index.html"
       },
       {
         "source": "/**",
-        "destination": "/chatbot/ecosurveybudget2026/index.html"
+        "destination": "/index.html"
       }
     ],
     "headers": [
