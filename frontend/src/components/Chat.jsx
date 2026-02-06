@@ -94,7 +94,7 @@ function Chat({ user }) {
       let errorMessage = '❌ Sorry, there was an error processing your request.'
       
       if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
-        errorMessage = '🌐 **Network Error**\n\nYour network may be blocking our API server. This is common on:\n• Corporate networks\n• School/university WiFi\n• Public WiFi with restrictions\n\n**Try:**\n1. Switch to mobile data/hotspot\n2. Try a different network\n3. Contact your IT department about accessing: ecosurvey-backend-v2-812016027146.asia-south1.run.app'
+        errorMessage = '🌐 **Network Error**\n\nYour network may be blocking our API server. This is common on:\n• Corporate networks\n• School/university WiFi\n• Public WiFi with restrictions\n\n**Try:**\n1. Switch to mobile data/hotspot\n2. Try a different network\n3. Contact your IT department about accessing: ecosurvey-backend-812016027146.asia-south1.run.app'
       } else if (error.message.includes('401') || error.message.includes('Unauthorized')) {
         errorMessage = '🔒 **Authentication Error**\n\nYour login session may have expired or is blocked by browser settings.\n\n**Try:**\n1. Sign out and sign back in\n2. Clear browser cache\n3. Try incognito/private mode'
       } else if (error.message.includes('Failed to get authentication token')) {

@@ -10,7 +10,7 @@
       {
         "source": "/chatbot/ecosurveybudget2026/api/**",
         "run": {
-          "serviceId": "ecosurvey-backend-v2",
+          "serviceId": "ecosurvey-backend",
           "region": "asia-south1"
         }
       },
