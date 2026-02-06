@@ -12,7 +12,8 @@ import traceback
 import os
 
 from app.core.settings import settings
-from app.api import health, auth, chat, rag_chat_v2
+from app.api import health, rag_chat_v2
+# from app.api import auth, chat  # Disabled - require PostgreSQL database
 
 # Configure logging
 logging.basicConfig(level=settings.LOG_LEVEL)
