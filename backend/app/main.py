@@ -1,6 +1,6 @@
 """
 Economic Survey Practitioner Chat v2.0 (Multi-Cloud Edition)
-FastAPI application entry point with adapter pattern
+FastAPI application entry point
 """
 
 from fastapi import FastAPI, Depends
@@ -12,65 +12,24 @@ import traceback
 import os
 
 from app.core.settings import settings
-from app.core.env_loader import get_deployment_config
-from app.adapters import (
-    get_auth_adapter,
-    get_session_adapter,
-    get_vector_adapter,
-)
 from app.api import health, auth, chat, rag_chat_v2
-from app.observability import get_metrics, get_feature_flags
 
 # Configure logging
 logging.basicConfig(level=settings.LOG_LEVEL)
 logger = logging.getLogger(__name__)
 
 
-# Global adapters (initialized at startup)
-auth_adapter = None
-session_adapter = None
-vector_adapter = None
-
-
 # Lifespan context manager for startup/shutdown events
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Handle app startup and shutdown"""
-    global auth_adapter, session_adapter, vector_adapter
-    
     # Startup
     deployment_target = os.getenv('DEPLOYMENT_TARGET', 'gcp')
     logger.info(f"Starting Economic Survey Chat v2.0 - Deployment: {deployment_target}")
-    
-    # Load deployment config
-    config = get_deployment_config()
-    logger.info(f"Auth: {config.auth.provider}, Sessions: {config.sessions.provider}, Vectors: {config.vectors.provider}")
-    
-    # Initialize adapters
-    try:
-        auth_adapter = get_auth_adapter()
-        session_adapter = get_session_adapter()
-        vector_adapter = get_vector_adapter()
-        
-        # Store in app state for dependency injection
-        app.state.auth_adapter = auth_adapter
-        app.state.session_adapter = session_adapter
-        app.state.vector_adapter = vector_adapter
-        app.state.metrics = get_metrics()
-        app.state.feature_flags = get_feature_flags()
-        
-        logger.info("✓ Adapters initialized successfully")
-        logger.info("✓ Observability layer active")
-        logger.info("✓ App ready and running")
-    except Exception as e:
-        logger.error(f"STARTUP ERROR: {e}", exc_info=True)
-        raise
-    
+    logger.info("App ready and running (Pinecone + Firebase mode)")
     yield
-    
     # Shutdown
     logger.info("Shutting down application")
-    logger.info(f"Session metrics: {get_metrics().get_stats()}")
 
 
 # Create FastAPI app
