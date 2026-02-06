@@ -28,8 +28,18 @@ function Chat({ user }) {
 
     try {
       const token = await getAuthToken()
-      // Call backend directly to avoid Netlify's 26-second proxy timeout
-      const backendUrl = import.meta.env.VITE_BACKEND_URL || 'https://ecosurvey-backend-v2-812016027146.asia-south1.run.app'
+      if (!token) {
+        throw new Error('Failed to get authentication token. Please try signing out and back in.')
+      }
+      
+      console.log('Sending request to backend...', { 
+        userId: user.uid, 
+        messageCount: messages.length,
+        hasToken: !!token 
+      })
+      
+      // Use absolute path to API
+      const apiUrl = '/chatbot/ecosurveybudget2026/api/rag-chat-v2'
       
       // Build conversation history from messages (exclude current user message)
       const conversationHistory = messages.map(msg => ({
@@ -37,7 +47,7 @@ function Chat({ user }) {
         content: msg.content
       }))
 
-      const response = await fetch(`${backendUrl}/api/rag-chat-v2`, {
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -50,6 +60,8 @@ function Chat({ user }) {
           top_k: 5
         })
       })
+      
+      console.log('Backend response status:', response.status)
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}))
@@ -58,6 +70,10 @@ function Chat({ user }) {
       }
 
       const data = await response.json()
+      console.log('Backend response received:', { 
+        hasCitations: data.citations?.length > 0, 
+        contextUsed: data.context_used 
+      })
       
       // Detect guardrail violation: no citations and no context used
       const isBlocked = data.citations?.length === 0 && data.context_used === 0
@@ -78,9 +94,11 @@ function Chat({ user }) {
       let errorMessage = '❌ Sorry, there was an error processing your request.'
       
       if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
-        errorMessage = '🌐 Network error. Please check your internet connection and try again.'
+        errorMessage = '🌐 **Network Error**\n\nYour network may be blocking our API server. This is common on:\n• Corporate networks\n• School/university WiFi\n• Public WiFi with restrictions\n\n**Try:**\n1. Switch to mobile data/hotspot\n2. Try a different network\n3. Contact your IT department about accessing: ecosurvey-backend-v2-812016027146.asia-south1.run.app'
       } else if (error.message.includes('401') || error.message.includes('Unauthorized')) {
-        errorMessage = '🔒 Authentication error. Please try logging out and back in.'
+        errorMessage = '🔒 **Authentication Error**\n\nYour login session may have expired or is blocked by browser settings.\n\n**Try:**\n1. Sign out and sign back in\n2. Clear browser cache\n3. Try incognito/private mode'
+      } else if (error.message.includes('Failed to get authentication token')) {
+        errorMessage = '🔒 **Authentication Token Error**\n\nCouldn\'t get your login credentials. This may happen if:\n• Browser storage is blocked\n• Session expired\n• Privacy settings are too strict\n\n**Try:**\n1. Sign out and sign back in\n2. Enable cookies/storage for this site\n3. Try a different browser'
       } else if (error.message.includes('404')) {
         errorMessage = '📭 No relevant information found for your question. Try rephrasing or asking something more general.'
       } else if (error.message.includes('500')) {

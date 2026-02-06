@@ -105,13 +105,15 @@ function App() {
         // Let them try Google first, but show email option prominently
       }
 
-      // Handle Google redirect result
+      // Handle Google redirect result (only once per page load)
       try {
         const redirectUser = await handleRedirectResult()
         if (redirectUser) {
-          console.log('Redirect sign-in completed')
+          console.log('Redirect sign-in completed:', redirectUser.email)
           setUser(redirectUser)
           setLoading(false)
+          // Clear any pending redirect state
+          window.history.replaceState({}, document.title, window.location.pathname)
           return
         }
       } catch (error) {

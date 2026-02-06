@@ -108,7 +108,7 @@ export const handleRedirectResult = async () => {
 export const sendPasswordlessEmail = async (email) => {
   const actionCodeSettings = {
     // URL you want to redirect back to after sign-in
-    url: window.location.origin + '/?email=' + email,
+    url: window.location.origin + '/chatbot/ecosurveybudget2026/?email=' + email,
     handleCodeInApp: true,
   }
 

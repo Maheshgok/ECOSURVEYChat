@@ -52,7 +52,9 @@ app.add_middleware(
 app.include_router(health.router, prefix="/api", tags=["Health"])
 # app.include_router(auth.router, prefix="/api", tags=["Authentication"])  # Disabled - requires database
 # app.include_router(chat.router, prefix="/api", tags=["Chat"])  # Disabled - requires database
-app.include_router(rag_chat_v2.router, prefix="/api", tags=["RAG Chat v2 - Advanced"])
+# Firebase forwards full path: /chatbot/ecosurveybudget2026/api/rag-chat-v2
+# So we need /api prefix here to match /api/rag-chat-v2
+app.include_router(rag_chat_v2.router, prefix="/chatbot/ecosurveybudget2026/api", tags=["RAG Chat v2 - Advanced"])
 
 
 # Root endpoint

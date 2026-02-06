@@ -1,0 +1,38 @@
+{
+  "hosting": {
+    "public": "frontend/dist",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/chatbot/ecosurveybudget2026/api/**",
+        "run": {
+          "serviceId": "ecosurvey-backend-v2",
+          "region": "asia-south1"
+        }
+      },
+      {
+        "source": "/chatbot/ecosurveybudget2026/**",
+        "destination": "/chatbot/ecosurveybudget2026/index.html"
+      },
+      {
+        "source": "/**",
+        "destination": "/chatbot/ecosurveybudget2026/index.html"
+      }
+    ],
+    "headers": [
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache, no-store, must-revalidate"
+          }
+        ]
+      }
+    ]
+  }
+}

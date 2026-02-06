@@ -15,7 +15,7 @@ from app.core.database import Base
 
 
 class User(Base):
-    """User account created via Firebase OAuth"""
+    """User account created via OAuth (Firebase, Azure AD, etc.)"""
     __tablename__ = "users"
     
     id = Column(PG_UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
@@ -23,6 +23,8 @@ class User(Base):
     email = Column(String(255), unique=True, nullable=False)
     name = Column(String(255))
     picture = Column(String(500))
+    email_verified = Column(Integer, default=0)  # SQLite compat: 0=False, 1=True
+    first_login = Column(DateTime, default=datetime.utcnow)
     created_at = Column(DateTime, default=datetime.utcnow)
     last_login = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     

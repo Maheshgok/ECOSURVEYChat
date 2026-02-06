@@ -31,6 +31,15 @@ openpyxl
 # Firebase (for auth/storage)
 firebase-admin
 
+# Azure Libraries (for Azure deployment)
+azure-cosmos
+azure-search-documents
+azure-identity
+msal
+
+# Observability
+prometheus-client
+
 # Utilities
 requests
 numpy

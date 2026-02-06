@@ -89,7 +89,7 @@ class Settings(BaseSettings):
     # =========================================================================
     FRONTEND_URL: str = "http://localhost:3000"
     FRONTEND_API_URL: str = "http://localhost:8000"
-    CORS_ORIGINS: str = "http://localhost:3000,http://localhost:8000,https://economicchat.netlify.app"
+    CORS_ORIGINS: str = "http://localhost:3000,http://localhost:8000,https://economicchat.netlify.app,https://watch-mail-trial.web.app,https://watch-mail-trial.firebaseapp.com,https://edgechurn.ai"
     
     @property
     def CORS_ORIGINS_LIST(self) -> List[str]:

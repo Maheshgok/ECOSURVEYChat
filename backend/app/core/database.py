@@ -55,3 +55,15 @@ def migrate_db():
             if statement.strip():
                 connection.execute(statement)
         connection.commit()
+
+
+from contextlib import contextmanager
+
+@contextmanager
+def get_db_context():
+    """Context manager for database sessions (used by ingestion)"""
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
